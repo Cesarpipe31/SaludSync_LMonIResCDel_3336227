@@ -1,0 +1,48 @@
+/* ===== SaludSync · Módulo 12 (Seguimiento y Controles Médicos) ===== */
+
+mark.hl{background:#fff1b8; padding:0 .1rem; border-radius:3px}
+.sticky-side{position:sticky; top:84px}
+.ctx-card{background:linear-gradient(120deg,#fff,#eef5fb); border:1px solid var(--ss-border); border-left:6px solid var(--ss-green); border-radius:14px; padding:.8rem 1rem}
+.alerta-alergia{background:#fcdada; border:1px solid #f0b4b2; color:#7a1f1f; border-radius:10px; padding:.35rem .7rem; font-size:.84rem; font-weight:600}
+.cie-code{display:inline-block; font-family:Consolas,"Courier New",monospace; font-weight:800; font-size:.85rem; background:#eef5fb; color:var(--ss-primary-dark); border:1px solid #cfe0f1; border-radius:6px; padding:.05rem .45rem}
+
+/* Chips de estado (filtros) */
+.chip-est{cursor:pointer; background:#fff; border:2px solid var(--ss-border); border-radius:12px; padding:.5rem .9rem; text-align:center; min-width:130px; transition:transform .15s, border-color .15s}
+.chip-est:hover{transform:translateY(-2px)}
+.chip-est strong{display:block; font-size:1.35rem; line-height:1.1}
+.chip-est small{color:var(--ss-muted); font-size:.74rem}
+.chip-est.activo{border-color:var(--ss-primary); background:#eef5fb}
+.chip-est.c-ok strong{color:#147553} .chip-est.c-prox strong{color:#b57a00} .chip-est.c-venc strong{color:#c0392b}
+
+/* Estados */
+.est-seg{font-size:.74rem; font-weight:700; border-radius:50px; padding:.2rem .7rem; white-space:nowrap}
+.est-Aldía{background:#e3f6ee; color:#147553}
+.est-Próximoavencer{background:#fff3cd; color:#7a5b00}
+.est-Vencido{background:#fcdada; color:#7a1f1f}
+tr.fila-Vencido td:first-child{box-shadow:inset 4px 0 0 #d9534f}
+tr.fila-Próximoavencer td:first-child{box-shadow:inset 4px 0 0 #f0a30a}
+tr.fila-Aldía td:first-child{box-shadow:inset 4px 0 0 #1c9a6c}
+.rel-dias{font-size:.76rem; font-weight:600}
+.rel-dias.neg{color:#c0392b} .rel-dias.warn{color:#a06b00} .rel-dias.ok{color:#147553}
+
+/* Metas */
+.meta-chip{display:inline-block; background:#eef5fb; color:var(--ss-primary-dark); border:1px solid #cfe0f1; border-radius:8px; font-size:.72rem; padding:.1rem .5rem; margin:0 .25rem .25rem 0}
+.meta-chip b{color:var(--ss-green-dark)}
+
+/* Intervalos como tarjetas */
+.int-card{border:2px solid var(--ss-border); border-radius:12px; padding:.65rem .8rem; cursor:pointer; background:#fff; height:100%; text-align:center; transition:border-color .15s, background .15s}
+.int-card strong{display:block; font-size:1.05rem}
+.int-card small{color:var(--ss-muted)}
+.btn-check:checked + .int-card{border-color:var(--ss-green); background:#effaf4}
+.prox-box{background:linear-gradient(135deg,#eef5fb,#effaf4); border:1px solid #cfe0f1; border-radius:12px; padding:.7rem .9rem}
+.prox-box .prox-fecha{font-size:1.25rem; font-weight:800; color:var(--ss-primary-dark)}
+
+/* Historial de controles */
+.timeline-ctrl{list-style:none; padding-left:1.2rem; border-left:3px solid var(--ss-border); margin:0}
+.timeline-ctrl li{position:relative; margin-bottom:.9rem; padding-left:.6rem}
+.timeline-ctrl li::before{content:""; position:absolute; left:-1.65rem; top:.35rem; width:12px; height:12px; border-radius:50%; background:var(--ss-green); border:2px solid #fff; box-shadow:0 0 0 2px var(--ss-green)}
+.cumple-ok{color:#147553; font-weight:700} .cumple-no{color:#c0392b; font-weight:700}
+.meta-eval td{vertical-align:middle}
+.aviso-existe{border-left:5px solid #f0a30a}
+
+@media (max-width:991px){.sticky-side{position:static}}

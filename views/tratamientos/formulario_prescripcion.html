@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prescripción y Plan Terapéutico | SaludSync</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../assets/css/styles.css" rel="stylesheet">
+  <link href="../../assets/css/plataforma.css" rel="stylesheet">
+  <link href="../../assets/css/tratamientos.css" rel="stylesheet">
+</head>
+<body data-page="formulario_prescripcion">
+
+  <div id="app-header"></div>
+
+  <main class="container-xl py-4">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb small mb-2">
+        <li class="breadcrumb-item"><a href="../../index.html">Inicio</a></li>
+        <li class="breadcrumb-item">Tratamientos</li>
+        <li class="breadcrumb-item active" aria-current="page">Nueva prescripción</li>
+      </ol>
+    </nav>
+
+    <div class="page-head mb-4">
+      <span class="badge badge-mod">Pantalla 11.1</span>
+      <h1 class="h3 fw-bold mb-0 mt-1">Prescripción y Plan Terapéutico</h1>
+      <p class="text-muted mb-0">Institución: <strong data-inst-nombre>—</strong> · Los campos con * son obligatorios.</p>
+    </div>
+
+    <!-- Éxito -->
+    <div id="exito" class="card panel d-none mb-4">
+      <div class="card-body text-center py-5">
+        <div class="display-4">✅</div>
+        <h2 class="h4 mt-2">Prescripción registrada</h2>
+        <p class="text-muted" id="exitoTexto"></p>
+        <div class="d-flex flex-wrap justify-content-center gap-2">
+          <button type="button" class="btn btn-danger" id="btnPDF">📄 Descargar fórmula (PDF)</button>
+          <a href="#" class="btn btn-primary" id="btnVerActivos">📋 Ver tratamientos activos</a>
+          <a href="formulario_prescripcion.html" class="btn btn-outline-primary">Nueva prescripción</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="flujo">
+      <!-- 1. Paciente, atención y diagnóstico -->
+      <section class="card panel mb-3">
+        <div class="card-header section-title">1 · Paciente, atención y diagnóstico</div>
+        <div class="card-body">
+          <div class="row g-3 align-items-end">
+            <div class="col-md-3"><label for="buscaPacT" class="form-label">Buscar paciente</label><input type="search" id="buscaPacT" class="form-control" placeholder="Nombre o documento" autocomplete="off"></div>
+            <div class="col-md-3"><label for="selPacT" class="form-label">Paciente *</label><select id="selPacT" class="form-select"></select></div>
+            <div class="col-md-3"><label for="selAtT" class="form-label">Atención *</label><select id="selAtT" class="form-select"></select></div>
+            <div class="col-md-3"><label for="selDxT" class="form-label">Diagnóstico CIE-10 *</label><select id="selDxT" class="form-select"></select></div>
+          </div>
+          <div class="ctx-card mt-3 d-none" id="ctxPac"></div>
+          <div class="at-resumen mt-2 d-none" id="atResumen"></div>
+        </div>
+      </section>
+
+      <div id="bloqueForm" class="d-none">
+        <!-- 2. Plan terapéutico -->
+        <section class="card panel mb-3">
+          <div class="card-header section-title">2 · Plan terapéutico</div>
+          <div class="card-body">
+            <span class="form-label d-block">Tipo de tratamiento *</span>
+            <div class="row g-2 mb-3">
+              <div class="col-6 col-md-3"><input type="radio" class="btn-check" name="tipoT" id="tt1" value="Farmacológico" checked><label class="tipo-card w-100" for="tt1"><strong>💊 Farmacológico</strong><small>Medicamentos formulados</small></label></div>
+              <div class="col-6 col-md-3"><input type="radio" class="btn-check" name="tipoT" id="tt2" value="No farmacológico"><label class="tipo-card w-100" for="tt2"><strong>🥗 No farmacológico</strong><small>Hábitos, dieta, reposo</small></label></div>
+              <div class="col-6 col-md-3"><input type="radio" class="btn-check" name="tipoT" id="tt3" value="Terapia"><label class="tipo-card w-100" for="tt3"><strong>🏃 Terapia</strong><small>Fisioterapia, psicología…</small></label></div>
+              <div class="col-6 col-md-3"><input type="radio" class="btn-check" name="tipoT" id="tt4" value="ninguno"><label class="tipo-card w-100" for="tt4"><strong>🧪 Solo órdenes</strong><small>Exámenes sin tratamiento</small></label></div>
+            </div>
+            <div id="bloquePlan">
+              <div class="row g-3">
+                <div class="col-md-3"><label for="fInicio" class="form-label">Fecha de inicio *</label><input type="date" id="fInicio" class="form-control"></div>
+                <div class="col-md-3" id="colDur"><label for="fDur" class="form-label">Duración estimada (días)</label><input type="number" id="fDur" class="form-control" min="1" max="365" placeholder="Opcional"></div>
+                <div class="col-md-3"><label class="form-label">Fecha fin estimada</label><input type="text" id="fFin" class="form-control bg-light" readonly tabindex="-1" value="—"></div>
+              </div>
+              <div class="row g-3 mt-1">
+                <div class="col-md-6"><label for="recom" class="form-label">Recomendaciones generales <span id="reqRecom" class="d-none">*</span></label><textarea id="recom" class="form-control" rows="3" maxlength="600" placeholder="Hidratación, dieta, reposo, ejercicios, cuidados…"></textarea><div class="invalid-feedback">Describa las recomendaciones (mínimo 10 caracteres).</div></div>
+                <div class="col-md-6"><label for="alarma" class="form-label">⚠ Signos de alarma</label><textarea id="alarma" class="form-control" rows="3" maxlength="400" placeholder="Cuándo debe consultar de inmediato (fiebre persistente, dificultad respiratoria…)"></textarea></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. Medicamentos -->
+        <section class="card panel mb-3" id="bloqueMeds">
+          <div class="card-header section-title">3 · Medicamentos formulados</div>
+          <div class="card-body">
+            <div class="med-form">
+              <div class="row g-2">
+                <div class="col-md-4"><label for="m_pa" class="form-label small fw-semibold">Principio activo *</label><input type="text" id="m_pa" class="form-control" list="listaMeds" maxlength="100" placeholder="Ej: Acetaminofén" autocomplete="off"><datalist id="listaMeds"></datalist></div>
+                <div class="col-md-5"><label for="m_pres" class="form-label small fw-semibold">Presentación y concentración *</label><input type="text" id="m_pres" class="form-control" maxlength="60" placeholder="Ej: 500 mg tableta"></div>
+                <div class="col-md-3"><label for="m_via" class="form-label small fw-semibold">Vía de administración *</label><select id="m_via" class="form-select"><option>Oral</option><option>Tópica</option><option>Intramuscular</option><option>Intravenosa</option><option>Otra</option></select></div>
+                <div class="col-6 col-md-2"><label for="m_dosis" class="form-label small fw-semibold">Dosis *</label><input type="number" id="m_dosis" class="form-control" min="0.25" max="99" step="0.25" value="1"></div>
+                <div class="col-6 col-md-2"><label for="m_unidad" class="form-label small fw-semibold">Unidad</label><select id="m_unidad" class="form-select"></select></div>
+                <div class="col-md-3"><label for="m_frec" class="form-label small fw-semibold">Frecuencia *</label><select id="m_frec" class="form-select"></select></div>
+                <div class="col-6 col-md-2"><label for="m_dias" class="form-label small fw-semibold">Duración (días) *</label><input type="number" id="m_dias" class="form-control" min="1" max="365" value="7"></div>
+                <div class="col-6 col-md-3"><div class="calc-box"><small>Cantidad total a dispensar</small><div class="calc-num" id="calcNum">0</div><small id="calcTxt">—</small></div></div>
+              </div>
+              <div class="alert alert-danger small mt-3 mb-2 d-none" id="errMed" role="alert"></div>
+              <div class="form-check mb-2 d-none" id="bloqueOverride"><input class="form-check-input" type="checkbox" id="chkOverride"><label class="form-check-label small" for="chkOverride">Prescribo bajo mi responsabilidad pese a la alerta (quedará registrado en auditoría).</label></div>
+              <div class="d-flex justify-content-end"><button type="button" class="btn btn-success" id="btnAddMed">➕ Agregar medicamento</button></div>
+            </div>
+            <div class="table-responsive mt-3"><table class="table table-ss align-middle mb-0">
+              <thead><tr><th>Medicamento</th><th>Vía</th><th>Dosis</th><th>Frecuencia</th><th>Días</th><th>Cantidad</th><th></th></tr></thead><tbody id="tablaMeds"></tbody></table></div>
+          </div>
+        </section>
+
+        <!-- 4. Órdenes de examen -->
+        <section class="card panel mb-3">
+          <div class="card-header section-title">4 · Órdenes clínicas de examen (opcional)</div>
+          <div class="card-body">
+            <div class="med-form">
+              <div class="row g-2">
+                <div class="col-md-3"><label for="o_tipo" class="form-label small fw-semibold">Tipo de examen *</label><select id="o_tipo" class="form-select"><option>Laboratorio Clínico</option><option>Imagenología</option><option>Procedimiento Especial</option><option>Otro</option></select></div>
+                <div class="col-md-5"><label for="o_nombre" class="form-label small fw-semibold">Nombre del examen *</label><input type="text" id="o_nombre" class="form-control" list="listaEx" maxlength="150" autocomplete="off"><datalist id="listaEx"></datalist></div>
+                <div class="col-md-4"><label for="o_just" class="form-label small fw-semibold">Justificación clínica *</label><input type="text" id="o_just" class="form-control" maxlength="250" placeholder="Motivo de la orden"></div>
+              </div>
+              <div class="alert alert-danger small mt-3 mb-2 d-none" id="errOrd" role="alert"></div>
+              <div class="d-flex justify-content-end"><button type="button" class="btn btn-outline-success" id="btnAddOrd">➕ Agregar orden</button></div>
+            </div>
+            <div class="table-responsive mt-3"><table class="table table-ss align-middle mb-0">
+              <thead><tr><th>Tipo</th><th>Examen</th><th>Justificación</th><th></th></tr></thead><tbody id="tablaOrd"></tbody></table></div>
+          </div>
+        </section>
+
+        <div class="alert alert-danger small d-none" id="errGuardar" role="alert"></div>
+        <div class="d-flex flex-wrap justify-content-end gap-2 mb-5">
+          <a href="tratamientos_activos.html" class="btn btn-outline-secondary">Cancelar</a>
+          <button type="button" class="btn btn-success px-4" id="btnGuardarT">💾 Guardar prescripción</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="app-footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/tratamientos.js"></script>
+</body>
+</html>

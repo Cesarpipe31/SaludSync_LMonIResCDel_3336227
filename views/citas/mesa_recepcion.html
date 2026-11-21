@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mesa de Recepción | SaludSync</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../assets/css/styles.css" rel="stylesheet">
+  <link href="../../assets/css/plataforma.css" rel="stylesheet">
+  <link href="../../assets/css/citas.css" rel="stylesheet">
+</head>
+<body data-page="mesa_recepcion">
+
+  <div id="app-header"></div>
+
+  <main class="container-xl py-4">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb small mb-2">
+        <li class="breadcrumb-item"><a href="../../index.html">Inicio</a></li>
+        <li class="breadcrumb-item">Citas</li>
+        <li class="breadcrumb-item active" aria-current="page">Mesa de recepción</li>
+      </ol>
+    </nav>
+
+    <div class="page-head d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+      <div>
+        <span class="badge badge-mod">Pantalla 7.1</span>
+        <h1 class="h3 fw-bold mb-0 mt-1">Mesa de Control y Recepción de Citas</h1>
+        <p class="text-muted mb-0">Institución: <strong data-inst-nombre>—</strong></p>
+      </div>
+      <div class="d-flex gap-2">
+        <a href="historial_reprogramacion.html" class="btn btn-outline-primary">🔄 Historial</a>
+        <a href="agendamiento_cita.html" class="btn btn-success">➕ Nueva cita</a>
+      </div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="card panel mb-3">
+      <div class="card-body">
+        <div class="row g-2 align-items-end">
+          <div class="col-md-4">
+            <label for="fechaMesa" class="form-label small fw-semibold">Fecha</label>
+            <div class="input-group">
+              <button type="button" class="btn btn-outline-primary" id="btnPrevDia" title="Día anterior">‹</button>
+              <input type="date" id="fechaMesa" class="form-control">
+              <button type="button" class="btn btn-outline-primary" id="btnHoyDia">Hoy</button>
+              <button type="button" class="btn btn-outline-primary" id="btnNextDia" title="Día siguiente">›</button>
+            </div>
+          </div>
+          <div class="col-md-3"><label for="selProfM" class="form-label small fw-semibold">Profesional</label><select id="selProfM" class="form-select"></select></div>
+          <div class="col-md-2"><label for="selSedeM" class="form-label small fw-semibold">Sede</label><select id="selSedeM" class="form-select"></select></div>
+          <div class="col-md-3"><label for="buscaPac" class="form-label small fw-semibold">Paciente (nombre o documento)</label><input type="search" id="buscaPac" class="form-control" placeholder="Buscar…" autocomplete="off"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chips de estado -->
+    <div class="d-flex flex-wrap gap-2 mb-3" id="chipsEstado"></div>
+
+    <!-- Tabla -->
+    <div class="card panel mb-5">
+      <div class="table-responsive">
+        <table class="table table-ss align-middle mb-0">
+          <thead><tr><th>Hora</th><th>Paciente</th><th>Profesional</th><th>Consultorio</th><th>Tipo</th><th>Estado</th><th class="text-end">Acciones</th></tr></thead>
+          <tbody id="tablaCitas"></tbody>
+        </table>
+      </div>
+      <div class="card-footer bg-white d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <small class="text-muted" id="contador"></small>
+        <nav aria-label="Paginación"><ul class="pagination pagination-sm mb-0" id="paginacion"></ul></nav>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal acción genérica -->
+  <div class="modal fade" id="modalAccion" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header"><h2 class="modal-title h5" id="accionTitulo">Confirmar</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button></div>
+        <div class="modal-body" id="accionCuerpo"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" id="btnConfirmarAccion">Confirmar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal cancelar -->
+  <div class="modal fade" id="modalCancelar" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <form class="modal-content" id="formCancelar" novalidate>
+        <div class="modal-header"><h2 class="modal-title h5">Cancelar cita</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button></div>
+        <div class="modal-body">
+          <p id="cancelInfo" class="mb-3"></p>
+          <div class="mb-3">
+            <label for="cancelMotivo" class="form-label">Motivo de cancelación *</label>
+            <select id="cancelMotivo" class="form-select" required>
+              <option value="">Seleccione…</option><option>Solicitud del paciente</option><option>Médico no disponible</option><option>Error de agendamiento</option><option>Fuerza mayor</option><option>Otro</option>
+            </select>
+            <div class="invalid-feedback">Seleccione el motivo.</div>
+          </div>
+          <div class="mb-0">
+            <label for="cancelDetalle" class="form-label">Detalle <span id="reqDetalle" class="d-none">*</span></label>
+            <input type="text" id="cancelDetalle" class="form-control" maxlength="120" placeholder="Opcional salvo en «Otro»">
+            <div class="invalid-feedback">Describa el motivo.</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Volver</button>
+          <button type="submit" class="btn btn-danger" id="btnConfirmarCancelar">Cancelar cita</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal detalle -->
+  <div class="modal fade" id="modalDetalle" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header"><h2 class="modal-title h5" id="detTitulo">Detalle de la cita</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button></div>
+        <div class="modal-body" id="detCuerpo"></div>
+        <div class="modal-footer"><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="app-footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/citas.js"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+/* ===== SaludSync · Módulo 14 (Reportes y Estadísticas) ===== */
+
+.sticky-side{position:sticky; top:84px}
+
+/* KPIs con variación */
+.kpi-rep{background:#fff; border:1px solid var(--ss-border); border-left:5px solid var(--ss-primary); border-radius:14px; padding:.9rem 1.1rem; height:100%}
+.kpi-rep.k-green{border-left-color:var(--ss-green)} .kpi-rep.k-warn{border-left-color:#f0a30a} .kpi-rep.k-red{border-left-color:#d9534f}
+.kpi-rep .kpi-v{font-size:1.9rem; font-weight:800; line-height:1.1; color:var(--ss-ink)}
+.kpi-rep .kpi-v small{font-size:.9rem; font-weight:600; color:var(--ss-muted)}
+.kpi-rep .kpi-t{color:var(--ss-muted); font-size:.82rem; font-weight:600}
+.kpi-rep .kpi-s{font-size:.76rem; color:var(--ss-muted)}
+.delta{font-weight:700; font-size:.76rem}
+.delta.bien{color:#147553} .delta.mal{color:#c0392b} .delta.neutro{color:var(--ss-muted)}
+
+/* Presets de periodo */
+.preset .btn{font-weight:600}
+
+/* Barras horizontales (Top diagnósticos) */
+.hbar{margin-bottom:.8rem}
+.hbar-top{display:flex; justify-content:space-between; align-items:baseline; gap:.6rem; font-size:.88rem}
+.hbar-top .cie{font-family:Consolas,"Courier New",monospace; font-weight:800; color:var(--ss-primary-dark); background:#eef5fb; border:1px solid #cfe0f1; border-radius:6px; padding:0 .4rem; margin-right:.4rem}
+.hbar-track{height:14px; background:#e9eef3; border-radius:8px; overflow:hidden; margin-top:.25rem}
+.hbar-fill{height:100%; border-radius:8px; background:linear-gradient(90deg,var(--ss-green),var(--ss-primary)); transition:width .5s}
+.hbar-fill.r1{background:linear-gradient(90deg,#1c9a6c,#0b5cab)} .hbar-fill.r2{opacity:.9} .hbar-fill.r3{opacity:.8} .hbar-fill.r4{opacity:.7} .hbar-fill.r5{opacity:.6}
+
+/* Gráficos SVG */
+.chart-box{width:100%; overflow-x:auto}
+.chart-box svg{width:100%; height:auto; min-width:420px}
+.svg-bar{fill:var(--ss-primary); transition:fill .15s}
+.svg-bar:hover{fill:var(--ss-green)}
+.svg-txt{font-size:10px; fill:#5d7288; font-family:inherit}
+.svg-val{font-size:10px; fill:#17324d; font-weight:700}
+.svg-grid{stroke:#e3eaf1; stroke-width:1}
+.donut-leg{list-style:none; padding:0; margin:0; font-size:.86rem}
+.donut-leg li{display:flex; align-items:center; gap:.5rem; margin-bottom:.35rem}
+.donut-leg .sw{width:12px; height:12px; border-radius:3px; flex-shrink:0}
+.donut-centro{font-size:22px; font-weight:800; fill:#17324d} .donut-sub{font-size:9px; fill:#5d7288}
+
+/* Barras en tablas */
+.mini-bar{height:8px; background:#e9eef3; border-radius:8px; overflow:hidden; min-width:90px}
+.mini-bar span{display:block; height:100%; background:linear-gradient(90deg,var(--ss-green),var(--ss-primary))}
+.mini-bar.rojo span{background:#d9534f} .mini-bar.ambar span{background:#f0a30a} .mini-bar.verde span{background:#1c9a6c}
+.pct-txt{font-weight:800; font-size:.85rem}
+.pct-txt.rojo{color:#c0392b} .pct-txt.ambar{color:#a06b00} .pct-txt.verde{color:#147553}
+
+/* Barra apilada de consultorios */
+.stack{position:relative; height:18px; background:#e4e8ec; border-radius:9px; overflow:hidden}
+.stack .asig{position:absolute; left:0; top:0; bottom:0; background:#a9cdee}
+.stack .ejec{position:absolute; left:0; top:0; bottom:0; background:linear-gradient(90deg,#1c9a6c,#2bb585)}
+.stack-leg{font-size:.74rem; color:var(--ss-muted)}
+.stack-leg .sq{display:inline-block; width:10px; height:10px; border-radius:3px; margin:0 .25rem 0 .7rem; vertical-align:middle}
+.cons-off{opacity:.65}
+
+/* Suscripción SaaS */
+.plan-box{background:linear-gradient(120deg,#fff,#eef5fb); border:1px solid var(--ss-border); border-left:6px solid var(--ss-green); border-radius:16px; padding:1rem 1.2rem}
+.uso-label{display:flex; justify-content:space-between; font-size:.85rem; font-weight:600; margin-bottom:.25rem}
+.est-pago{font-size:.74rem; font-weight:700; border-radius:50px; padding:.15rem .6rem}
+.ep-Pagada{background:#e3f6ee; color:#147553} .ep-Pendiente{background:#fff3cd; color:#7a5b00} .ep-Mora{background:#fcdada; color:#7a1f1f}
+
+/* Exportación y anonimización */
+.export-card{background:linear-gradient(120deg,#fff,#f3f8fc); border:1px solid var(--ss-border); border-radius:14px}
+.anon-box{background:#effaf4; border:1px dashed #b7dfcc; border-radius:10px; padding:.5rem .8rem; font-size:.84rem}
+.anon-box.off{background:#fff6f6; border-color:#f0b4b2}
+.json-mini{font-family:Consolas,"Courier New",monospace; font-size:.72rem; color:#44546a; word-break:break-all}
+.badge-anon{background:#1c9a6c} .badge-nanon{background:#c0392b}
+
+/* Job asíncrono */
+.job-paso{font-size:.88rem; color:var(--ss-muted); min-height:1.3rem}
+
+@media (max-width:991px){.sticky-side{position:static}}

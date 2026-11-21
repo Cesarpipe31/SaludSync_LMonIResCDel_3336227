@@ -1,0 +1,59 @@
+/* ===== SaludSync · Módulo 2 (Seguridad y Control de Acceso) ===== */
+
+/* ---- Login / Recuperar (dos áreas) ---- */
+.auth-page{padding:1rem 0; min-height:calc(100vh - 140px); display:flex; align-items:center; background:
+  radial-gradient(circle at 10% 10%, rgba(28,154,108,.10), transparent 40%),
+  radial-gradient(circle at 90% 90%, rgba(11,92,171,.12), transparent 40%), var(--ss-bg)}
+.auth-shell{background:#fff; border:1px solid var(--ss-border); border-radius:16px; overflow:hidden; box-shadow:0 12px 30px rgba(23,50,77,.12); max-width:900px; margin:0 auto}
+.auth-side{background:linear-gradient(150deg,var(--ss-primary-dark),var(--ss-primary) 55%,var(--ss-green)); color:#fff; padding:1.8rem; flex-direction:column; justify-content:center; display:none}
+.auth-side h2{font-weight:800; font-size:1.5rem; margin-bottom:.5rem}
+.auth-tiles{display:grid; grid-template-columns:1fr 1fr; gap:.6rem; margin-top:1rem}
+.auth-tile{background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.25); border-radius:12px; padding:.8rem; font-size:.8rem}
+.auth-tile span{font-size:1.4rem; display:block; margin-bottom:.15rem}
+.auth-form-col{padding:2rem 1.8rem}
+.auth-title{font-weight:800; color:var(--ss-ink); font-size:1.4rem; margin-bottom:.5rem}
+.hash-preview{font-family:Consolas,"Courier New",monospace; font-size:.7rem; color:var(--ss-green-dark); background:#f0f8f4; border:1px dashed #b7dfcc; border-radius:6px; padding:.3rem .5rem; word-break:break-all; min-height:1.8rem}
+.demo-box{background:#fff8e6; border:1px solid #f3dd9b; border-radius:8px; font-size:.75rem; padding:.5rem .7rem; margin-bottom:1rem}
+.btn-eye{min-width:40px}
+
+/* ---- Requisitos de contraseña ---- */
+.req-list{list-style:none; padding:0; margin:.5rem 0 0; font-size:.82rem; color:var(--ss-muted)}
+.req-list li::before{content:"○"; margin-right:.45rem}
+.req-list li.ok{color:var(--ss-green-dark); font-weight:600}
+.req-list li.ok::before{content:"✔"}
+
+/* ---- Roles ---- */
+.rol-badge{font-weight:600}
+
+/* ---- Matriz de permisos ---- */
+.matriz-wrap{overflow-x:auto}
+.perm-table th,.perm-table td{vertical-align:middle}
+.perm-table .col-nivel{width:130px; text-align:center}
+.nivel-select{font-size:.8rem; font-weight:600; border-radius:8px; min-width:150px}
+.nivel-select[data-v="Sin acceso"]{background-color:#f1f3f5; color:#6c757d}
+.nivel-select[data-v="Lectura"]{background-color:#e7f1fb; color:var(--ss-primary)}
+.nivel-select[data-v="Lectura/Escritura"]{background-color:#e3f6ee; color:var(--ss-green-dark)}
+.legend-dot{display:inline-block; width:12px; height:12px; border-radius:4px; margin-right:.3rem; vertical-align:middle}
+.ld-s{background:#cfd4d9} .ld-l{background:#8fbbe6} .ld-e{background:#7fd2b0}
+
+/* ---- Auditoría ---- */
+.audit-row small{color:var(--ss-muted)}
+.audit-json{font-family:Consolas,"Courier New",monospace; font-size:.75rem}
+
+@media (max-width:576px){
+  .auth-form-col{padding:1.5rem 1.2rem}
+  .auth-title{font-size:1.2rem}
+  .auth-page{padding:.5rem 0}
+}
+
+@media (min-width:768px){
+  .auth-side{display:flex}
+  .auth-shell{display:flex}
+  .auth-form-col{flex:1; padding:2.5rem 2.2rem}
+  .auth-side{flex:0 0 280px}
+  .auth-side h2{font-size:1.7rem}
+  .auth-tiles{margin-top:1.5rem}
+  .auth-tile{padding:1rem; font-size:.88rem}
+  .auth-tile span{font-size:1.6rem}
+  .auth-page{padding:2rem 0}
+}

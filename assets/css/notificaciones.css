@@ -1,0 +1,56 @@
+/* ===== SaludSync · Módulo 13 (Notificaciones y Alertas del Sistema) ===== */
+
+.sticky-side{position:sticky; top:84px}
+
+/* Colores por tipo */
+:root{--t-cita:#0b5cab; --t-alerta:#c0392b; --t-susc:#8e44ad; --t-agenda:#d68a00}
+
+/* Filtros */
+.pill-est .btn{font-weight:600}
+.chip-tipo{cursor:pointer; background:#fff; border:2px solid var(--ss-border); border-radius:50px; padding:.3rem .9rem; font-size:.84rem; font-weight:600; transition:background .15s, border-color .15s}
+.chip-tipo:hover{background:#f2f8fd}
+.chip-tipo.activo{border-color:var(--ss-primary); background:#eef5fb}
+.chip-tipo .n{background:#e9eef3; border-radius:50px; font-size:.72rem; padding:0 .45rem; margin-left:.3rem}
+
+/* Barra de selección */
+.barra-sel{background:#eef5fb; border:1px solid #cfe0f1; border-radius:12px; padding:.5rem .9rem}
+
+/* Lista */
+.notif-dia{font-size:.78rem; font-weight:800; text-transform:uppercase; letter-spacing:.5px; color:var(--ss-muted); margin:1.1rem 0 .4rem}
+.notif{display:flex; gap:.8rem; align-items:flex-start; background:#fff; border:1px solid var(--ss-border); border-radius:14px; padding:.8rem 1rem; margin-bottom:.55rem; transition:box-shadow .15s, transform .15s}
+.notif:hover{box-shadow:0 6px 16px rgba(23,50,77,.09)}
+.notif.no-leida{background:linear-gradient(90deg,#f2f8fd,#fff 40%); border-left:5px solid var(--ss-primary)}
+.notif.no-leida .notif-titulo{font-weight:800}
+.notif.archivada{opacity:.75; background:#f7f9fb}
+.notif-ico{width:42px; height:42px; border-radius:12px; color:#fff; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0}
+.ti-Cita{background:var(--t-cita)} .ti-Alerta{background:var(--t-alerta)} .ti-Susc{background:var(--t-susc)} .ti-Agenda{background:var(--t-agenda)}
+.notif-body{flex:1; cursor:pointer; min-width:0}
+.notif-titulo{font-weight:600; color:var(--ss-ink)}
+.notif-msg{font-size:.9rem; color:#3b4f63; margin:.1rem 0 .35rem}
+.notif-meta{font-size:.74rem; color:var(--ss-muted)}
+.badge-tipo{font-size:.68rem; font-weight:700; border-radius:50px; padding:.15rem .6rem; color:#fff}
+.bt-Cita{background:var(--t-cita)} .bt-Alerta{background:var(--t-alerta)} .bt-Susc{background:var(--t-susc)} .bt-Agenda{background:var(--t-agenda)}
+.punto-nl{display:inline-block; width:9px; height:9px; border-radius:50%; background:var(--ss-primary); margin-right:.4rem}
+.notif-acc{display:flex; flex-direction:column; gap:.3rem; flex-shrink:0}
+.notif-acc .btn{padding:.1rem .45rem; font-size:.8rem}
+.go-link{color:var(--ss-primary); font-weight:600}
+
+/* Configuración de alertas */
+.regla-ev{font-weight:700}
+.chip-canal{display:inline-block; font-size:.72rem; font-weight:700; border-radius:6px; padding:.1rem .5rem; margin:0 .25rem .25rem 0}
+.cc-Web{background:#d9ecfb; color:#0b5cab} .cc-Correo{background:#e3f6ee; color:#147553} .cc-SMS{background:#fff3cd; color:#7a5b00}
+.var-chip{cursor:pointer; display:inline-block; background:#eef5fb; border:1px solid #cfe0f1; color:var(--ss-primary-dark); border-radius:50px; font-family:Consolas,"Courier New",monospace; font-size:.76rem; font-weight:700; padding:.15rem .65rem; margin:0 .3rem .3rem 0; transition:background .15s}
+.var-chip:hover{background:#d9ecfb}
+.row-editando{background:#fff8e6 !important}
+
+/* Vistas previas por canal */
+.pv-box{border:1px solid var(--ss-border); border-radius:12px; padding:.7rem .9rem; background:#fff; margin-bottom:.7rem}
+.pv-box h4{font-size:.74rem; text-transform:uppercase; letter-spacing:.4px; color:var(--ss-muted); margin-bottom:.4rem}
+.pv-box mark{background:#fff1b8; padding:0 .1rem; border-radius:3px}
+.pv-correo{border-left:4px solid var(--ss-green)}
+.pv-sms .bubble{background:#e3f6ee; color:#0e3b2a; border-radius:16px 16px 4px 16px; padding:.5rem .8rem; font-size:.86rem; max-width:90%; margin-left:auto}
+.sms-count{font-size:.76rem; font-weight:700}
+.sms-count.ok{color:#147553} .sms-count.warn{color:#c0392b}
+.log-ok{color:#147553; font-weight:700}
+
+@media (max-width:991px){.sticky-side{position:static} .notif{flex-wrap:wrap} .notif-acc{flex-direction:row}}

@@ -1,0 +1,53 @@
+/* ===== SaludSync · Módulo 8 (Atención Médica y Consulta Externa) ===== */
+
+.sticky-side{position:sticky; top:84px}
+
+/* ---- Panel asistencial ---- */
+.en-curso{background:linear-gradient(120deg,#fff8e6,#fff); border:1px solid #f3dd9b; border-left:6px solid #f0a30a; border-radius:14px; padding:1rem 1.2rem}
+.cola-num{width:34px; height:34px; border-radius:50%; background:var(--ss-primary); color:#fff; font-weight:700; display:inline-flex; align-items:center; justify-content:center}
+.espera-chip{font-weight:700; font-size:.8rem; border-radius:50px; padding:.2rem .65rem}
+.espera-ok{background:#e3f6ee; color:#147553} .espera-med{background:#fff3cd; color:#7a5b00} .espera-alto{background:#fcdada; color:#7a1f1f}
+.alerg-flag{display:inline-block; background:#fcdada; color:#7a1f1f; border-radius:6px; font-size:.7rem; font-weight:700; padding:.05rem .4rem; margin-left:.3rem}
+.hora-cell{font-family:Consolas,"Courier New",monospace; font-weight:700; color:var(--ss-primary-dark)}
+.btn-iniciar{font-weight:700}
+
+/* ---- Formulario de consulta ---- */
+.pac-header{position:sticky; top:62px; z-index:20; background:#fff; border:1px solid var(--ss-border); border-left:6px solid var(--ss-green); border-radius:14px; padding:.8rem 1rem; box-shadow:0 4px 12px rgba(23,50,77,.08)}
+.pac-header .avatar-c{width:52px; height:52px; border-radius:50%; background:linear-gradient(135deg,var(--ss-primary),var(--ss-green)); color:#fff; font-weight:800; display:inline-flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0}
+.timer{font-family:Consolas,"Courier New",monospace; font-size:1.25rem; font-weight:700; color:var(--ss-primary-dark)}
+.alerta-alergia{background:#fcdada; border:1px solid #f0b4b2; color:#7a1f1f; border-radius:10px; padding:.4rem .7rem; font-size:.85rem; font-weight:600}
+
+.paso-chip{display:inline-flex; align-items:center; gap:.4rem; background:#fff; border:2px solid var(--ss-border); border-radius:50px; padding:.25rem .8rem; font-size:.82rem; font-weight:600; color:var(--ss-muted)}
+.paso-chip.ok{border-color:var(--ss-green); color:var(--ss-green-dark); background:#effaf4}
+.paso-chip.ok::before{content:"✔"} .paso-chip:not(.ok)::before{content:"○"}
+
+.contador-car{font-size:.78rem; color:var(--ss-muted); text-align:right}
+.sistema-chip{cursor:pointer; display:inline-block; background:#eef5fb; border:1px solid #cfe0f1; color:var(--ss-primary-dark); border-radius:50px; font-size:.76rem; font-weight:600; padding:.15rem .65rem; margin:0 .25rem .3rem 0; transition:background .15s}
+.sistema-chip:hover{background:#d9ecfb}
+
+/* Signos vitales */
+.vital-card{background:#f7fafc; border:1px solid var(--ss-border); border-radius:12px; padding:.7rem .8rem; height:100%}
+.vital-card label{font-size:.78rem; font-weight:700; color:var(--ss-muted); text-transform:uppercase; letter-spacing:.3px; margin-bottom:.2rem}
+.vital-card .input-group-text{font-size:.78rem; background:#eef5fb}
+.vital-card.alerta{border-color:#f0b4b2; background:#fff6f6}
+.vital-card.alerta2{border-color:#f3dd9b; background:#fffaf0}
+.vital-msg{font-size:.75rem; font-weight:600; min-height:1rem}
+.vital-msg.crit{color:#c0392b} .vital-msg.warn{color:#a06b00}
+.imc-box{background:linear-gradient(135deg,#eef5fb,#effaf4); border:1px solid #cfe0f1; border-radius:14px; padding:.9rem; text-align:center; height:100%}
+.imc-valor{font-size:2.2rem; font-weight:800; color:var(--ss-primary-dark); line-height:1}
+.imc-bajo{background:#d9ecfb;color:#0b5cab} .imc-normal{background:#e3f6ee;color:#147553} .imc-sobre{background:#fff3cd;color:#7a5b00}
+.imc-ob1{background:#ffe3a3;color:#7a4300} .imc-ob2{background:#fcd0c2;color:#8a2a10} .imc-ob3{background:#fcdada;color:#7a1f1f}
+
+/* Antecedentes */
+.ant-grupo h3{font-size:.85rem; text-transform:uppercase; letter-spacing:.4px; color:var(--ss-primary-dark); margin:.8rem 0 .3rem}
+.ant-item{display:flex; justify-content:space-between; gap:.6rem; align-items:flex-start; background:#fff; border:1px solid var(--ss-border); border-radius:10px; padding:.45rem .7rem; margin-bottom:.35rem; font-size:.88rem}
+.ant-item small{color:var(--ss-muted)}
+.ant-nuevo{border-color:var(--ss-green); background:#f3fbf7}
+.badge-ant-Alérgico{background:#c0392b} .badge-ant-Patológico{background:#0b5cab} .badge-ant-Quirúrgico{background:#6c4aa8}
+.badge-ant-Farmacológico{background:#17a2b8} .badge-ant-Familiar{background:#7a8a99}
+
+/* Barra de acciones */
+.barra-acciones{position:sticky; bottom:0; z-index:15; background:rgba(255,255,255,.96); backdrop-filter:blur(4px); border-top:2px solid var(--ss-border); padding:.7rem 0; margin-top:1rem}
+.lock-banner{border-left:5px solid #c0392b}
+
+@media (max-width:991px){.sticky-side{position:static} .pac-header{position:static}}

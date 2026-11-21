@@ -1,0 +1,41 @@
+/* ===== SaludSync · Módulo 7 (Citas Médicas y Recepción) ===== */
+
+mark.hl{background:#fff1b8; padding:0 .1rem; border-radius:3px}
+.sticky-side{position:sticky; top:84px}
+
+/* ---- Mesa de recepción ---- */
+.chip-estado{cursor:pointer; background:#fff; border:2px solid var(--ss-border); border-radius:12px; padding:.5rem .8rem; text-align:center; min-width:110px; transition:transform .15s, border-color .15s}
+.chip-estado:hover{transform:translateY(-2px)}
+.chip-estado strong{display:block; font-size:1.35rem; line-height:1.1}
+.chip-estado small{color:var(--ss-muted); font-size:.74rem}
+.chip-estado.activo{border-color:var(--ss-primary); background:#eef5fb}
+.chip-estado.e-prog strong{color:#0b5cab} .chip-estado.e-sala strong{color:#0a7c8c} .chip-estado.e-cons strong{color:#b57a00}
+.chip-estado.e-aten strong{color:#147553} .chip-estado.e-canc strong{color:#6c757d} .chip-estado.e-inas strong{color:#c0392b}
+.espera{font-size:.76rem; color:#b57a00; font-weight:600}
+.hora-cell{font-family:Consolas,"Courier New",monospace; font-weight:700; color:var(--ss-primary-dark)}
+.btn-acc{padding:.15rem .45rem; font-size:.8rem}
+.fila-pasada td{opacity:.8}
+
+/* ---- Agendamiento ---- */
+.res-fecha{background:#eaf1f8; border-radius:10px; padding:.5rem .9rem; margin:1rem 0 .5rem; font-weight:700; color:var(--ss-primary-dark); display:flex; justify-content:space-between}
+.res-fila{border:1px solid var(--ss-border); border-radius:12px; padding:.7rem .9rem; margin-bottom:.5rem; background:#fff}
+.res-fila .res-info{font-size:.85rem; margin-bottom:.4rem}
+.slot-btn{display:inline-block; border:1px solid #b7dfcc; background:#e3f6ee; color:#147553; border-radius:8px; font-size:.8rem; font-weight:700; padding:.2rem .6rem; margin:0 .3rem .3rem 0; cursor:pointer; transition:background .15s, transform .15s}
+.slot-btn:hover{background:#c9eddc; transform:translateY(-1px)}
+.slot-btn.sel{background:var(--ss-primary); border-color:var(--ss-primary); color:#fff}
+.res-scroll{max-height:560px; overflow-y:auto; padding-right:.3rem}
+.pac-lista .list-group-item{cursor:pointer}
+.pac-lista .list-group-item:hover{background:#eef5fb}
+.pac-card{background:#eef5fb; border:1px solid #cfe0f1; border-radius:12px; padding:.6rem .8rem}
+.resumen-slot{background:#f0f8f4; border:1px dashed #b7dfcc; border-radius:12px; padding:.7rem .9rem}
+.reprog-banner{border-left:5px solid #f0a30a}
+
+/* ---- Historial ---- */
+.delta{font-weight:700; font-size:.78rem}
+.delta-pos{color:#b57a00} .delta-neg{color:#147553}
+.fecha-flecha{white-space:nowrap}
+.timeline-rep{list-style:none; padding-left:1.2rem; border-left:3px solid var(--ss-border); margin:0}
+.timeline-rep li{position:relative; margin-bottom:.9rem; padding-left:.6rem}
+.timeline-rep li::before{content:""; position:absolute; left:-1.65rem; top:.35rem; width:12px; height:12px; border-radius:50%; background:var(--ss-green); border:2px solid #fff; box-shadow:0 0 0 2px var(--ss-green)}
+
+@media (max-width:991px){.sticky-side{position:static}}

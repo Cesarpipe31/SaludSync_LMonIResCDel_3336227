@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Registro de Paciente | SaludSync</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../assets/css/styles.css" rel="stylesheet">
+  <link href="../../assets/css/plataforma.css" rel="stylesheet">
+  <link href="../../assets/css/pacientes.css" rel="stylesheet">
+</head>
+<body data-page="registro_paciente">
+
+  <div id="app-header"></div>
+
+  <main class="container py-4">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb small mb-2">
+        <li class="breadcrumb-item"><a href="../../index.html">Inicio</a></li>
+        <li class="breadcrumb-item"><a href="directorio_pacientes.html">Pacientes</a></li>
+        <li class="breadcrumb-item active" aria-current="page" id="crumbForm">Nuevo paciente</li>
+      </ol>
+    </nav>
+
+    <div class="page-head mb-4">
+      <span class="badge badge-mod">Pantalla 3.2</span>
+      <h1 class="h3 fw-bold mb-0 mt-1" id="tituloForm">Registro de Paciente</h1>
+      <p class="text-muted mb-0" id="subtituloForm">Institución: <strong data-inst-nombre>—</strong> · Los campos con * son obligatorios.</p>
+    </div>
+
+    <form id="formPaciente" novalidate>
+
+      <!-- 1. Datos personales -->
+      <section class="card panel mb-3">
+        <div class="card-header section-title">1 · Datos personales y demográficos</div>
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-md-3">
+              <label for="tipo_documento" class="form-label">Tipo de documento *</label>
+              <select id="tipo_documento" class="form-select" required>
+                <option value="">Seleccione…</option><option>CC</option><option>TI</option><option>RC</option><option>CE</option><option>Pasaporte</option><option>PEP</option><option>PPT</option>
+              </select>
+              <div class="invalid-feedback">Seleccione el tipo.</div>
+            </div>
+            <div class="col-md-4">
+              <label for="numero_documento" class="form-label">Número de documento *</label>
+              <input type="text" id="numero_documento" class="form-control" maxlength="20" required pattern="[0-9A-Za-z]{5,20}">
+              <div class="invalid-feedback" data-fb="doc" data-default="Ingrese un documento válido (5 a 20 caracteres, sin espacios).">Ingrese un documento válido (5 a 20 caracteres, sin espacios).</div>
+            </div>
+            <div class="col-md-5 d-flex align-items-end">
+              <div class="aviso-edad text-warning-emphasis d-none" id="avisoTipo"></div>
+            </div>
+            <div class="col-md-6">
+              <label for="nombres" class="form-label">Nombres *</label>
+              <input type="text" id="nombres" class="form-control" maxlength="60" required>
+              <div class="invalid-feedback">Ingrese los nombres.</div>
+            </div>
+            <div class="col-md-6">
+              <label for="apellidos" class="form-label">Apellidos *</label>
+              <input type="text" id="apellidos" class="form-control" maxlength="60" required>
+              <div class="invalid-feedback">Ingrese los apellidos.</div>
+            </div>
+            <div class="col-md-4">
+              <label for="fecha_nacimiento" class="form-label">Fecha de nacimiento *</label>
+              <input type="date" id="fecha_nacimiento" class="form-control" min="1900-01-01" required>
+              <div class="form-text" id="edadCalc">Edad: —</div>
+              <div class="invalid-feedback">Ingrese una fecha válida (no futura).</div>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label d-block">Sexo biológico *</label>
+              <div class="btn-group w-100" role="group" aria-label="Sexo biológico">
+                <input type="radio" class="btn-check" name="sexo" id="sexoF" value="Femenino" required>
+                <label class="btn btn-outline-primary" for="sexoF">Femenino</label>
+                <input type="radio" class="btn-check" name="sexo" id="sexoM" value="Masculino" required>
+                <label class="btn btn-outline-primary" for="sexoM">Masculino</label>
+              </div>
+              <div class="text-danger small mt-1 d-none" id="errSexo">Seleccione el sexo biológico.</div>
+            </div>
+            <div class="col-md-4">
+              <label for="eps" class="form-label">EPS</label>
+              <input type="text" id="eps" class="form-control" maxlength="60" list="listaEps" placeholder="Seleccione o escriba">
+              <datalist id="listaEps">
+                <option value="Sanitas"><option value="Nueva EPS"><option value="Sura"><option value="Coosalud"><option value="Famisanar"><option value="Salud Total"><option value="Particular">
+              </datalist>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Contacto -->
+      <section class="card panel mb-3">
+        <div class="card-header section-title">2 · Contacto y residencia</div>
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label for="telefono" class="form-label">Teléfono / Celular *</label>
+              <input type="tel" id="telefono" class="form-control" maxlength="20" required pattern="[0-9+\s\-]{7,20}" placeholder="300 000 0000">
+              <div class="invalid-feedback">Ingrese un teléfono válido.</div>
+            </div>
+            <div class="col-md-8">
+              <label for="correo" class="form-label">Correo electrónico</label>
+              <input type="email" id="correo" class="form-control" maxlength="100" placeholder="paciente@correo.com">
+              <div class="invalid-feedback">Correo no válido.</div>
+            </div>
+            <div class="col-12">
+              <label for="direccion" class="form-label">Dirección residencial</label>
+              <input type="text" id="direccion" class="form-control" maxlength="150" placeholder="Carrera 27 # 45-12, Bucaramanga">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Red de apoyo -->
+      <section class="card panel mb-3">
+        <div class="card-header section-title">3 · Red de apoyo / Contacto de emergencia</div>
+        <div class="card-body">
+          <div class="alert alert-warning py-2 small d-none" id="avisoMenor">👶 El paciente es menor de edad: el contacto de emergencia (acudiente) es obligatorio.</div>
+          <div class="row g-3">
+            <div class="col-md-5">
+              <label for="ce_nombre" class="form-label">Nombre del contacto <span class="req-ce d-none">*</span></label>
+              <input type="text" id="ce_nombre" class="form-control" maxlength="100">
+              <div class="invalid-feedback">Ingrese el nombre del contacto.</div>
+            </div>
+            <div class="col-md-3">
+              <label for="ce_parentesco" class="form-label">Parentesco <span class="req-ce d-none">*</span></label>
+              <select id="ce_parentesco" class="form-select">
+                <option value="">Seleccione…</option><option>Padre</option><option>Madre</option><option>Hijo(a)</option><option>Cónyuge</option><option>Hermano(a)</option><option>Abuelo(a)</option><option>Tío(a)</option><option>Amigo(a)</option><option>Otro</option>
+              </select>
+              <div class="invalid-feedback">Seleccione el parentesco.</div>
+            </div>
+            <div class="col-md-4">
+              <label for="ce_telefono" class="form-label">Teléfono del contacto <span class="req-ce d-none">*</span></label>
+              <input type="tel" id="ce_telefono" class="form-control" maxlength="20" pattern="[0-9+\s\-]{7,20}">
+              <div class="invalid-feedback">Ingrese un teléfono válido.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Estado -->
+      <section class="card panel mb-3">
+        <div class="card-header section-title">4 · Estado</div>
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label for="estado" class="form-label">Estado del paciente</label>
+              <select id="estado" class="form-select"><option>Activo</option><option>Inactivo</option></select>
+              <div class="form-text">Un paciente no puede repetirse (tipo + número) dentro de la misma institución.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="d-flex flex-wrap justify-content-end gap-2 mb-5">
+        <a href="directorio_pacientes.html" class="btn btn-outline-secondary">Cancelar</a>
+        <button type="reset" class="btn btn-outline-primary">Limpiar</button>
+        <button type="submit" class="btn btn-success px-4" id="btnGuardar">💾 Guardar paciente</button>
+      </div>
+    </form>
+  </main>
+
+  <div id="app-footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/pacientes.js"></script>
+</body>
+</html>

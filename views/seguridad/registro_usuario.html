@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Alta de Usuario | SaludSync</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../assets/css/styles.css" rel="stylesheet">
+  <link href="../../assets/css/plataforma.css" rel="stylesheet">
+  <link href="../../assets/css/seguridad.css" rel="stylesheet">
+</head>
+<body data-page="registro_usuario">
+
+  <div id="app-header"></div>
+
+  <main class="container py-4">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb small mb-2">
+        <li class="breadcrumb-item"><a href="../../index.html">Inicio</a></li>
+        <li class="breadcrumb-item"><a href="directorio_usuarios.html">Usuarios</a></li>
+        <li class="breadcrumb-item active" aria-current="page" id="crumbForm">Nuevo usuario</li>
+      </ol>
+    </nav>
+
+    <div class="page-head mb-4">
+      <span class="badge badge-mod">Pantalla 2.4</span>
+      <h1 class="h3 fw-bold mb-0 mt-1" id="tituloForm">Alta de Usuario y Asignación de Permisos</h1>
+      <p class="text-muted mb-0" id="subtituloForm">Cree la cuenta, asigne un rol y ajuste los permisos por módulo. Los campos con * son obligatorios.</p>
+    </div>
+
+    <form id="formUsuario" novalidate>
+
+      <section class="card panel mb-3">
+        <div class="card-header section-title">1 · Identificación</div>
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-md-3">
+              <label for="tipo_documento" class="form-label">Tipo de documento *</label>
+              <select id="tipo_documento" name="tipo_documento" class="form-select" required>
+                <option value="">Seleccione…</option><option>CC</option><option>TI</option><option>RC</option><option>CE</option><option>Pasaporte</option><option>PEP</option><option>PPT</option>
+              </select>
+              <div class="invalid-feedback">Seleccione el tipo.</div>
+            </div>
+            <div class="col-md-4">
+              <label for="numero_documento" class="form-label">Número de documento *</label>
+              <input type="text" id="numero_documento" name="numero_documento" class="form-control" inputmode="numeric" maxlength="20" required pattern="[0-9A-Za-z]{5,20}">
+              <div class="invalid-feedback" data-fb="doc" data-default="Ingrese un documento válido (5 a 20 caracteres).">Ingrese un documento válido (5 a 20 caracteres).</div>
+            </div>
+            <div class="col-md-5"></div>
+            <div class="col-md-6">
+              <label for="nombres" class="form-label">Nombres *</label>
+              <input type="text" id="nombres" name="nombres" class="form-control" maxlength="60" required>
+              <div class="invalid-feedback">Ingrese los nombres.</div>
+            </div>
+            <div class="col-md-6">
+              <label for="apellidos" class="form-label">Apellidos *</label>
+              <input type="text" id="apellidos" name="apellidos" class="form-control" maxlength="60" required>
+              <div class="invalid-feedback">Ingrese los apellidos.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card panel mb-3">
+        <div class="card-header section-title">2 · Contacto, institución y rol</div>
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="correo" class="form-label">Correo institucional *</label>
+              <input type="email" id="correo" name="correo" class="form-control" maxlength="100" required placeholder="usuario@institucion.co">
+              <div class="invalid-feedback" data-fb="correo" data-default="Ingrese un correo válido.">Ingrese un correo válido.</div>
+            </div>
+            <div class="col-md-6">
+              <label for="telefono" class="form-label">Teléfono</label>
+              <input type="tel" id="telefono" name="telefono" class="form-control" maxlength="20" pattern="[0-9+\s\-]{7,20}" placeholder="300 000 0000">
+              <div class="invalid-feedback">Teléfono no válido.</div>
+            </div>
+            <div class="col-md-4">
+              <label for="rol" class="form-label">Rol principal *</label>
+              <select id="rol" class="form-select" disabled><option value="">Asignado por el sistema</option></select>
+              <div class="form-text">El rol lo asigna el servidor.</div>
+            </div>
+            <div class="col-md-5">
+              <label for="institucion" class="form-label">Institución *</label>
+              <select id="institucion" name="id_institucion" class="form-select" required><option value="">Seleccione…</option></select>
+              <div class="form-text" id="ayudaInst">Cada usuario queda aislado a su institución.</div>
+              <div class="invalid-feedback">Seleccione la institución.</div>
+            </div>
+            <div class="col-md-3">
+              <label for="estado" class="form-label">Estado inicial</label>
+              <select id="estado" name="estado" class="form-select"><option>Activo</option><option>Inactivo</option><option>Bloqueado</option></select>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card panel mb-3" id="bloqueCredenciales">
+        <div class="card-header section-title">3 · Credencial temporal</div>
+        <div class="card-body">
+          <div class="row g-3 align-items-start">
+            <div class="col-md-6">
+              <label for="clave" class="form-label">Contraseña temporal *</label>
+              <div class="input-group has-validation">
+                <input type="password" id="clave" name="clave" class="form-control" autocomplete="new-password" data-solo-alta required>
+                <button type="button" class="btn btn-outline-secondary btn-eye" data-toggle-pass="#clave" aria-label="Mostrar u ocultar" aria-pressed="false">👁</button>
+                <button type="button" class="btn btn-outline-primary" id="btnGenerar">🎲 Generar</button>
+                <div class="invalid-feedback">La contraseña no cumple los requisitos.</div>
+              </div>
+              <div class="hash-preview mt-2" id="hashPreview">—</div>
+            </div>
+            <div class="col-md-6">
+              <ul class="req-list mt-md-4" id="reqList">
+                <li data-req="len">Mínimo 8 caracteres</li>
+                <li data-req="may">Una letra mayúscula</li>
+                <li data-req="min">Una letra minúscula</li>
+                <li data-req="num">Un número</li>
+                <li data-req="sim">Un símbolo (!@#$%&amp;*)</li>
+              </ul>
+              <div class="form-check mt-2">
+                <input class="form-check-input" type="checkbox" id="enviarCredenciales" disabled>
+                <label class="form-check-label small" for="enviarCredenciales">No se envía correo: entregue la contraseña al usuario por un canal seguro</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card panel mb-3">
+        <div class="card-header section-title d-flex flex-wrap justify-content-between align-items-center gap-2">
+          <span>4 · Permisos por módulo</span>
+          <span class="badge bg-secondary" id="badgePerm">Seleccione un rol</span>
+        </div>
+        <div class="card-body">
+          <div class="d-flex flex-wrap gap-2 mb-3">
+            <button type="button" class="btn btn-sm btn-outline-primary" id="btnPermRol">↩ Restablecer al rol</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary" id="btnPermLectura">Todo en Lectura</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary" id="btnPermNinguno">Sin acceso a todo</button>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-ss perm-table align-middle mb-0">
+              <thead><tr><th>Módulo</th><th class="col-nivel">Sin acceso</th><th class="col-nivel">Lectura</th><th class="col-nivel">Lectura / Escritura</th></tr></thead>
+              <tbody id="permBody"></tbody>
+            </table>
+          </div>
+          <div class="text-danger small mt-2 d-none" id="errPerm">Asigne acceso a al menos un módulo.</div>
+        </div>
+      </section>
+
+      <div class="d-flex flex-wrap justify-content-end gap-2 mb-5">
+        <a href="directorio_usuarios.html" class="btn btn-outline-secondary">Cancelar</a>
+        <button type="reset" class="btn btn-outline-primary">Limpiar</button>
+        <button type="submit" class="btn btn-success px-4" id="btnGuardar">💾 Crear usuario</button>
+      </div>
+    </form>
+  </main>
+
+  <div id="app-footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/seguridad.js"></script>
+</body>
+</html>

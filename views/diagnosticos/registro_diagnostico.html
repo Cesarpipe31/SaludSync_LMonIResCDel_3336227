@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Registro de Diagnóstico | SaludSync</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../assets/css/styles.css" rel="stylesheet">
+  <link href="../../assets/css/plataforma.css" rel="stylesheet">
+  <link href="../../assets/css/diagnosticos.css" rel="stylesheet">
+</head>
+<body data-page="registro_diagnostico">
+
+  <div id="app-header"></div>
+
+  <main class="container-xl py-4">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb small mb-2">
+        <li class="breadcrumb-item"><a href="../../index.html">Inicio</a></li>
+        <li class="breadcrumb-item">Diagnósticos</li>
+        <li class="breadcrumb-item active" aria-current="page">Registro</li>
+      </ol>
+    </nav>
+
+    <div class="page-head mb-4">
+      <span class="badge badge-mod">Pantalla 10.1</span>
+      <h1 class="h3 fw-bold mb-0 mt-1">Registro Diagnóstico en Consulta (CIE-10)</h1>
+      <p class="text-muted mb-0">Institución: <strong data-inst-nombre>—</strong> · Cada consulta requiere <strong>un diagnóstico principal</strong>.</p>
+    </div>
+
+    <!-- Éxito -->
+    <div id="exito" class="card panel d-none mb-4">
+      <div class="card-body text-center py-5">
+        <div class="display-4">✅</div>
+        <h2 class="h4 mt-2">Diagnósticos registrados</h2>
+        <p class="text-muted" id="exitoTexto"></p>
+        <div class="d-flex flex-wrap justify-content-center gap-2">
+          <a href="#" class="btn btn-primary" id="btnVerHistorial">🗂️ Ver historial diagnóstico</a>
+          <a href="../atencion/panel_asistencial.html" class="btn btn-outline-primary">Volver al panel asistencial</a>
+          <a href="../tratamientos/formulario_prescripcion.html" class="btn btn-success" id="btnTrat">💊 Prescribir tratamiento</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="flujo">
+      <!-- 1. Paciente y atención -->
+      <section class="card panel mb-3">
+        <div class="card-header section-title">1 · Paciente y atención</div>
+        <div class="card-body">
+          <div class="row g-3 align-items-end">
+            <div class="col-md-3"><label for="buscaPacD" class="form-label">Buscar paciente</label><input type="search" id="buscaPacD" class="form-control" placeholder="Nombre o documento" autocomplete="off"></div>
+            <div class="col-md-4"><label for="selPacD" class="form-label">Paciente *</label><select id="selPacD" class="form-select"></select></div>
+            <div class="col-md-5"><label for="selAtD" class="form-label">Atención finalizada *</label><select id="selAtD" class="form-select"></select></div>
+          </div>
+          <div class="ctx-card mt-3 d-none" id="ctxPac"></div>
+          <div class="at-resumen mt-2 d-none" id="atResumen"></div>
+        </div>
+      </section>
+
+      <div class="row g-3 mb-3 d-none" id="bloqueDx">
+        <!-- 2. Búsqueda CIE-10 -->
+        <div class="col-lg-7">
+          <section class="card panel h-100">
+            <div class="card-header section-title">2 · Buscar en el catálogo CIE-10</div>
+            <div class="card-body">
+              <div class="row g-2 mb-2">
+                <div class="col-md-7"><input type="search" id="cieBuscar" class="form-control" placeholder="Código o descripción (ej: I10, hipertensión)" autocomplete="off" aria-label="Buscar CIE-10"></div>
+                <div class="col-md-5"><select id="cieCat" class="form-select" aria-label="Categoría"></select></div>
+              </div>
+              <div class="small text-muted mb-2" id="cieContador"></div>
+              <div class="cie-lista" id="cieLista"></div>
+            </div>
+          </section>
+        </div>
+
+        <!-- 3. Datos del diagnóstico -->
+        <div class="col-lg-5">
+          <section class="card panel h-100">
+            <div class="card-header section-title">3 · Datos del diagnóstico</div>
+            <div class="card-body">
+              <div class="cie-seleccionado mb-3" id="cieSel"><span class="text-muted">Seleccione un código de la lista.</span></div>
+              <div class="mb-3">
+                <label for="dx_tipo" class="form-label">Tipo de diagnóstico *</label>
+                <select id="dx_tipo" class="form-select"></select>
+                <div class="slot-info mt-1" id="slotInfo"></div>
+              </div>
+              <div class="mb-1">
+                <label for="dx_conf" class="form-label">Tipo de confirmación *</label>
+                <select id="dx_conf" class="form-select"><option>Impresión Diagnóstica</option><option>Confirmado Nuevo</option><option>Confirmado Repetido</option></select>
+              </div>
+              <div class="hint-prev mb-3" id="hintPrev"></div>
+              <div class="mb-3">
+                <label for="dx_obs" class="form-label">Observaciones / criterios médicos</label>
+                <textarea id="dx_obs" class="form-control" rows="3" maxlength="500" placeholder="Criterios clínicos, hallazgos que sustentan el diagnóstico…"></textarea>
+                <div class="form-text"><span id="obsCount">0</span>/500</div>
+              </div>
+              <div class="form-check form-switch mb-2">
+                <input class="form-check-input" type="checkbox" id="chkProg"><label class="form-check-label" for="chkProg">Notificar a programa de control</label>
+              </div>
+              <select id="selProg" class="form-select mb-3 d-none" aria-label="Programa de control"></select>
+              <div class="alert alert-danger small d-none" id="errAdd" role="alert"></div>
+              <div class="d-grid"><button type="button" class="btn btn-success" id="btnAgregarDx" disabled>➕ Agregar a la consulta</button></div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <!-- 4. Diagnósticos de la consulta -->
+      <section class="card panel mb-5 d-none" id="bloqueLista">
+        <div class="card-header section-title d-flex flex-wrap justify-content-between align-items-center gap-2">
+          <span>4 · Diagnósticos de esta consulta</span><span id="estadoPrincipal"></span>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-ss align-middle mb-0">
+            <thead><tr><th>Tipo</th><th>CIE-10</th><th>Confirmación</th><th>Observaciones</th><th>Programa</th><th class="text-end"></th></tr></thead>
+            <tbody id="tablaDx"></tbody>
+          </table>
+        </div>
+        <div class="card-footer bg-white">
+          <div class="alert alert-danger small d-none mb-2" id="errGuardar" role="alert"></div>
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+            <small class="text-muted">Los diagnósticos ya guardados son parte de la trazabilidad y no se pueden eliminar.</small>
+            <button type="button" class="btn btn-success px-4" id="btnGuardarDx">💾 Guardar diagnósticos y continuar</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div id="app-footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/diagnosticos.js"></script>
+</body>
+</html>

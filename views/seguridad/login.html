@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Iniciar sesión | SaludSync</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../assets/css/styles.css" rel="stylesheet">
+  <link href="../../assets/css/seguridad.css" rel="stylesheet">
+</head>
+<body data-page="login">
+
+  <div id="app-header"></div>
+
+  <main class="auth-page">
+    <div class="container">
+      <div class="row g-0 auth-shell">
+
+        <!-- Área informativa -->
+        <div class="col-lg-6 auth-side d-none d-lg-flex">
+          <span class="ss-pill align-self-start">Pantalla 2.1 · Autenticación</span>
+          <h2>Acceso seguro a su institución</h2>
+          <p class="mb-0 opacity-75">Control de acceso por roles (RBAC) con aislamiento de datos por institución de salud.</p>
+          <div class="auth-tiles">
+            <div class="auth-tile"><span>🔒</span>Contraseña cifrada</div>
+            <div class="auth-tile"><span>🛡️</span>Bloqueo tras 3 intentos</div>
+            <div class="auth-tile"><span>🧭</span>Panel según su rol</div>
+            <div class="auth-tile"><span>📋</span>Auditoría de accesos</div>
+          </div>
+        </div>
+
+        <!-- Formulario -->
+        <div class="col-lg-6 auth-form-col">
+          <h1 class="h3 auth-title mb-1">Iniciar sesión</h1>
+          <p class="text-muted">Ingrese con su correo institucional y contraseña.</p>
+
+          <div id="loginAlert" role="alert" class="d-none"></div>
+
+          <form id="formLogin" action="../../controls/seguridad/login.php" method="POST" novalidate>
+            <div class="mb-3">
+              <label for="correo" class="form-label fw-semibold">Correo electrónico *</label>
+              <input type="email" id="correo" name="correo" class="form-control form-control-lg" placeholder="usuario@institucion.co" autocomplete="username" required>
+              <div class="invalid-feedback">Ingrese un correo válido.</div>
+            </div>
+
+            <div class="mb-2">
+              <label for="contrasena" class="form-label fw-semibold">Contraseña *</label>
+              <div class="input-group has-validation">
+                <input type="password" id="contrasena" name="contrasena" class="form-control form-control-lg" autocomplete="current-password" required minlength="6">
+                <button type="button" class="btn btn-outline-secondary btn-eye" data-toggle-pass="#contrasena" aria-label="Mostrar u ocultar contraseña" aria-pressed="false">👁</button>
+                <div class="invalid-feedback">Ingrese su contraseña.</div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <small class="text-muted d-block mb-1">🔐 Así se almacena su contraseña (simulación bcrypt):</small>
+              <div class="hash-preview" id="hashPreview" aria-live="polite">—</div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="mantener">
+                <label class="form-check-label small" for="mantener">Mantener sesión iniciada</label>
+              </div>
+              <a href="recuperar_contrasena.html" class="small">Olvidé mi contraseña</a>
+            </div>
+
+            <div class="d-grid mb-3">
+              <button type="submit" class="btn btn-primary btn-lg" id="btnLogin">Iniciar sesión</button>
+            </div>
+
+            <p class="text-center small mb-3">¿No tienes cuenta? <a href="registro_usuario.html">Regístrate</a></p>
+
+            <div class="demo-box">
+              <strong>Cuentas de prueba</strong> (contraseña <code>Demo2026*</code>):<br>
+              superadmin@saludsync.co · admin@santalucia.co · recepcion@santalucia.co<br>
+              <span class="text-muted">Médico de prueba: u1@mail.com (Clínica_1).</span>
+            </div>
+
+            <p class="text-muted small mt-3 mb-0">🛡️ Sus datos personales están protegidos conforme a la Ley 1581 de 2012 (Habeas Data).</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="app-footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/seguridad.js"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+/* ===== SaludSync · Módulo 5 (Consultorios y Sedes Físicas) ===== */
+
+mark.hl{background:#fff1b8; padding:0 .1rem; border-radius:3px}
+.sticky-form{position:sticky; top:84px}
+.codigo-cons{font-family:Consolas,"Courier New",monospace; font-weight:700; color:var(--ss-primary)}
+.tipo-chip{display:inline-block; background:#eef5fb; color:var(--ss-primary-dark); border:1px solid #cfe0f1; border-radius:50px; font-size:.76rem; font-weight:600; padding:.15rem .6rem}
+.row-editando{background:#fff8e6 !important}
+
+/* ---- Resumen de ocupación ---- */
+.occ-table th,.occ-table td{text-align:center; vertical-align:middle; font-size:.85rem}
+.occ-table td.occ{cursor:pointer; font-weight:700; transition:filter .15s}
+.occ-table td.occ:hover{filter:brightness(.93)}
+.occ-table tr.sel-row td:first-child{border-left:4px solid var(--ss-green)}
+.occ-0{background:#effaf4; color:#147553}
+.occ-lo{background:#d9ecfb; color:#0b5cab}
+.occ-mid{background:#b9d8f4; color:#083f78}
+.occ-hi{background:#ffe3a3; color:#7a4300}
+.occ-off{background:#e4e8ec; color:#6c757d; font-weight:500 !important}
+.occ-mant{background:#fff3cd; color:#7a5b00; font-weight:500 !important}
+
+/* ---- Grilla semanal ---- */
+.grid-wrap{overflow-x:auto}
+.matriz-grid{width:100%; min-width:760px; border-collapse:separate; border-spacing:0}
+.matriz-grid th{background:#eaf1f8; color:var(--ss-primary-dark); font-size:.8rem; text-align:center; padding:.45rem .3rem; border-bottom:2px solid var(--ss-border); position:sticky; top:0; z-index:2}
+.matriz-grid th small{display:block; font-weight:500; color:var(--ss-muted); font-size:.68rem}
+.matriz-grid .hora-col{width:70px; background:#f6f9fc; position:sticky; left:0; z-index:3; color:var(--ss-muted)}
+.cel{height:46px; border:1px solid #e3eaf1; padding:.15rem .35rem; font-size:.72rem; line-height:1.15; vertical-align:middle}
+.cel strong{display:block; font-size:.76rem}
+.cel small{font-size:.68rem; opacity:.85}
+
+.cel-libre{background:#effaf4; cursor:pointer; text-align:center; color:transparent; transition:background .15s}
+.cel-libre:hover{background:#cdeedd; color:#147553}
+.cel-turno{cursor:pointer}
+.cel-turno:hover{filter:brightness(.95)}
+.cel-cerrado{background:#d9dee3}
+.cel-mant{background:repeating-linear-gradient(45deg,#fff3cd,#fff3cd 8px,#ffe69c 8px,#ffe69c 16px)}
+.cel-inactivo{background:repeating-linear-gradient(45deg,#eef0f2,#eef0f2 8px,#dfe3e7 8px,#dfe3e7 16px)}
+
+/* Paleta por profesional */
+.p0{background:#d6e8fa; color:#083f78; border-left:4px solid #0b5cab}
+.p1{background:#d9f2e7; color:#0e5c3f; border-left:4px solid #1c9a6c}
+.p2{background:#fde8cf; color:#7a4300; border-left:4px solid #f0a30a}
+.p3{background:#ecdcf7; color:#4b2169; border-left:4px solid #8e44ad}
+.p4{background:#fcdada; color:#7a1f1f; border-left:4px solid #d9534f}
+.p5{background:#d7f1f4; color:#0b5560; border-left:4px solid #17a2b8}
+.p6{background:#f3f0c8; color:#5a5400; border-left:4px solid #b5a800}
+.p7{background:#e4e4f7; color:#2e2e7a; border-left:4px solid #5b5bd6}
+
+/* Leyenda */
+.lg{display:inline-block; width:14px; height:14px; border-radius:4px; margin-right:.3rem; vertical-align:middle; border:1px solid #cdd6df}
+.lg-libre{background:#effaf4} .lg-turno{background:#d6e8fa} .lg-cerrado{background:#d9dee3}
+.lg-mant{background:repeating-linear-gradient(45deg,#fff3cd,#fff3cd 3px,#ffe69c 3px,#ffe69c 6px)}
+.lg-inac{background:repeating-linear-gradient(45deg,#eef0f2,#eef0f2 3px,#dfe3e7 3px,#dfe3e7 6px)}
+
+.dia-check{min-width:88px}
+@media (max-width:991px){.sticky-form{position:static}}

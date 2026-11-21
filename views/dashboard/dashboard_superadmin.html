@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard SuperAdmin | SaludSync</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../assets/css/styles.css" rel="stylesheet">
+  <link href="../../assets/css/plataforma.css" rel="stylesheet">
+  <link href="../../assets/css/dashboard.css" rel="stylesheet">
+</head>
+<body data-page="dashboard_superadmin">
+
+  <div id="app-header"></div>
+
+  <main class="container-xl py-4">
+    <div class="alert alert-danger d-none" id="sinAcceso">🔒 Esta vista está reservada para el rol <strong>SuperAdmin</strong>. <a href="../../index.html" class="alert-link">Volver al inicio</a>.</div>
+
+    <div id="contenido">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb small mb-2">
+          <li class="breadcrumb-item"><a href="../../index.html">Inicio</a></li>
+          <li class="breadcrumb-item">Dashboard</li>
+          <li class="breadcrumb-item active" aria-current="page">SuperAdmin</li>
+        </ol>
+      </nav>
+
+      <div class="page-head d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+        <div>
+          <span class="badge badge-mod">Pantalla 15.3</span>
+          <h1 class="h3 fw-bold mb-0 mt-1">Dashboard Global de la Plataforma SaaS</h1>
+          <p class="text-muted mb-0"><span id="fechaHoy"></span> · Todas las instituciones</p>
+        </div>
+        <div class="d-flex flex-wrap gap-2 align-items-center">
+          <span class="live-chip"><span class="live-dot"></span><span class="reloj" id="reloj">--:--:--</span></span>
+          <a href="../plataforma/planes_suscripciones.html" class="btn btn-outline-primary">💳 Planes y suscripciones</a>
+          <button type="button" class="btn-quick w-auto py-2" data-go="../plataforma/registro_institucion.html"><span class="q-ico">➕</span><span>Registrar institución</span></button>
+        </div>
+      </div>
+
+      <div class="row g-3 mb-4" id="kpis"></div>
+
+      <div class="row g-3 mb-3">
+        <div class="col-lg-5"><div class="card panel h-100"><div class="card-header section-title">🧩 Suscripciones por paquete comercial</div>
+          <div class="card-body"><div class="row align-items-center"><div class="col-sm-5"><div class="chart-box" id="donut"></div></div><div class="col-sm-7" id="barrasPlan"></div></div></div></div></div>
+        <div class="col-lg-7"><div class="card panel h-100"><div class="card-header section-title d-flex justify-content-between"><span>🔔 Suscripciones por renovar (≤ 30 días)</span><span class="badge bg-warning text-dark" id="nRenovar">0</span></div>
+          <div class="table-responsive"><table class="table table-ss align-middle mb-0"><thead><tr><th>Institución</th><th>Plan</th><th>Corte</th><th>Estado</th><th class="text-end">Acción</th></tr></thead><tbody id="tablaRenovar"></tbody></table></div></div></div>
+      </div>
+
+      <div class="card panel mb-5">
+        <div class="card-header section-title d-flex justify-content-between"><span>🏥 Últimas clínicas registradas</span><a href="../plataforma/instituciones.html" class="small">Ver directorio →</a></div>
+        <div class="table-responsive"><table class="table table-ss align-middle mb-0">
+          <thead><tr><th>Clínica</th><th>Plan</th><th>Registro</th><th>Médicos</th><th>Pacientes</th><th>Suscripción</th><th>Pago</th><th class="text-end">Auditoría</th></tr></thead><tbody id="tablaClinicas"></tbody></table></div>
+      </div>
+    </div>
+  </main>
+
+  <div class="modal fade" id="modalAudit" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"><div class="modal-content">
+    <div class="modal-header"><h2 class="modal-title h5" id="auditTitulo">Auditoría</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button></div>
+    <div class="modal-body" id="auditCuerpo"></div>
+    <div class="modal-footer"><a href="../seguridad/directorio_usuarios.html" class="btn btn-outline-primary">Ver auditoría completa</a><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button></div></div></div></div>
+
+  <div id="app-footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/dashboard.js"></script>
+</body>
+</html>

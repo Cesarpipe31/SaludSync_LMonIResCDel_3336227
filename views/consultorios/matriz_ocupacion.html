@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Matriz de Ocupación | SaludSync</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../assets/css/styles.css" rel="stylesheet">
+  <link href="../../assets/css/plataforma.css" rel="stylesheet">
+  <link href="../../assets/css/consultorios.css" rel="stylesheet">
+</head>
+<body data-page="matriz_ocupacion">
+
+  <div id="app-header"></div>
+
+  <main class="container py-4">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb small mb-2">
+        <li class="breadcrumb-item"><a href="../../index.html">Inicio</a></li>
+        <li class="breadcrumb-item"><a href="directorio_consultorios.html">Consultorios</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Matriz de ocupación</li>
+      </ol>
+    </nav>
+
+    <div class="page-head mb-4">
+      <span class="badge badge-mod">Pantalla 5.2</span>
+      <h1 class="h3 fw-bold mb-0 mt-1">Matriz de Disponibilidad y Ocupación Física</h1>
+      <p class="text-muted mb-0">Institución: <strong data-inst-nombre>—</strong> · Haga clic en una franja libre para asignar un profesional.</p>
+    </div>
+
+    <!-- Controles -->
+    <div class="card panel mb-3">
+      <div class="card-body">
+        <div class="row g-2 align-items-end">
+          <div class="col-md-3">
+            <label for="selSede" class="form-label small fw-semibold">Sede</label>
+            <select id="selSede" class="form-select"></select>
+          </div>
+          <div class="col-md-4">
+            <label for="selCons" class="form-label small fw-semibold">Consultorio</label>
+            <select id="selCons" class="form-select"></select>
+          </div>
+          <div class="col-md-5 d-flex flex-wrap gap-2 justify-content-md-end">
+            <button type="button" class="btn btn-outline-primary" id="btnFranja">⏰ Configurar franja</button>
+            <button type="button" class="btn btn-success" id="btnAsignar">👨‍⚕️ Asignar profesional</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Resumen por sede -->
+    <div class="card panel mb-4">
+      <div class="card-header section-title">Ocupación semanal por consultorio (% de horas abiertas asignadas)</div>
+      <div class="table-responsive">
+        <table class="table occ-table table-bordered mb-0">
+          <thead id="occHead"></thead>
+          <tbody id="occBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Detalle -->
+    <div id="alertaEstado"></div>
+    <div class="row g-3 mb-3" id="kpisCons"></div>
+
+    <div class="mb-2 small">
+      <span class="me-3"><span class="lg lg-libre"></span>Libre</span>
+      <span class="me-3"><span class="lg lg-turno"></span>Turno asignado</span>
+      <span class="me-3"><span class="lg lg-cerrado"></span>Cerrado</span>
+      <span class="me-3"><span class="lg lg-mant"></span>Mantenimiento</span>
+      <span><span class="lg lg-inac"></span>Inactivo</span>
+    </div>
+
+    <div class="card panel mb-5">
+      <div class="grid-wrap">
+        <table class="matriz-grid">
+          <thead id="gridHead"></thead>
+          <tbody id="gridBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal asignar profesional -->
+  <div class="modal fade" id="modalAsignar" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <form class="modal-content" id="formAsignar" novalidate>
+        <div class="modal-header"><h2 class="modal-title h5">Asignar profesional al consultorio</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button></div>
+        <div class="modal-body">
+          <p class="mb-3">Consultorio: <strong id="asCons"></strong></p>
+          <div class="mb-3">
+            <label class="form-label" for="as_prof">Profesional *</label>
+            <select id="as_prof" class="form-select" required></select>
+            <div class="invalid-feedback">Seleccione un profesional.</div>
+          </div>
+          <div class="row g-3">
+            <div class="col-md-4"><label class="form-label" for="as_dia">Día *</label><select id="as_dia" class="form-select" required></select></div>
+            <div class="col-6 col-md-4"><label class="form-label" for="as_ini">Inicio *</label><select id="as_ini" class="form-select" required></select></div>
+            <div class="col-6 col-md-4"><label class="form-label" for="as_fin">Fin *</label><select id="as_fin" class="form-select" required></select></div>
+          </div>
+          <div class="alert alert-danger small mt-3 mb-0 d-none" id="asErrores" role="alert"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-success" id="btnGuardarTurno">Asignar turno</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal detalle de turno -->
+  <div class="modal fade" id="modalTurno" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header"><h2 class="modal-title h5">Turno asignado</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button></div>
+        <div class="modal-body" id="turnoCuerpo"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-danger" id="btnLiberar">Liberar turno</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal configurar franja -->
+  <div class="modal fade" id="modalFranja" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <form class="modal-content" id="formFranja" novalidate>
+        <div class="modal-header"><h2 class="modal-title h5">Configurar franja de disponibilidad</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button></div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label" for="fr_cons">Consultorio *</label>
+            <select id="fr_cons" class="form-select" required></select>
+          </div>
+          <div class="mb-3">
+            <span class="form-label d-block">Días a configurar *</span>
+            <div class="d-flex flex-wrap gap-2" id="frDias"></div>
+          </div>
+          <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="fr_cerrado">
+            <label class="form-check-label" for="fr_cerrado">Cerrar estos días (sin atención)</label>
+          </div>
+          <div class="row g-3">
+            <div class="col-6"><label class="form-label" for="fr_ap">Hora de apertura</label><select id="fr_ap" class="form-select"></select></div>
+            <div class="col-6"><label class="form-label" for="fr_ci">Hora de cierre</label><select id="fr_ci" class="form-select"></select></div>
+          </div>
+          <div class="alert alert-danger small mt-3 mb-0 d-none" id="frErrores" role="alert"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-success" id="btnGuardarFranja">Guardar franja</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="app-footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/consultorios.js"></script>
+</body>
+</html>

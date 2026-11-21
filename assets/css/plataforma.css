@@ -1,0 +1,41 @@
+/* ===== SaludSync · Módulo 1 (Plataforma SaaS) ===== */
+.badge-mod{background:var(--ss-green); font-weight:600; letter-spacing:.3px}
+.page-head h1{color:var(--ss-ink)}
+.panel{border:1px solid var(--ss-border); border-radius:14px; box-shadow:0 2px 8px rgba(23,50,77,.04)}
+.section-title{background:#fff; font-weight:700; color:var(--ss-primary); border-bottom:2px solid var(--ss-green)}
+
+/* KPIs */
+.kpi{background:#fff; border:1px solid var(--ss-border); border-left:5px solid var(--ss-primary); border-radius:12px; padding:.9rem 1rem}
+.kpi-green{border-left-color:var(--ss-green)} .kpi-gray{border-left-color:#8a99a8} .kpi-warn{border-left-color:#f0a30a}
+.kpi-num{font-size:1.7rem; font-weight:800; line-height:1}
+.kpi-lbl{color:var(--ss-muted); font-size:.85rem}
+
+/* Tablas */
+.table-ss thead th{background:#eaf1f8; color:var(--ss-primary-dark); font-size:.82rem; text-transform:uppercase; letter-spacing:.4px; white-space:nowrap; border-bottom:0}
+.table-ss tbody tr:hover{background:#f6fafe}
+.table-ss td{font-size:.92rem}
+.cell-sub{display:block; color:var(--ss-muted); font-size:.78rem}
+
+/* Formulario */
+.svc{background:#f7fafc; border:1px solid var(--ss-border); border-radius:10px; padding:.6rem .6rem .6rem 2.2rem}
+.svc:hover{border-color:var(--ss-green)}
+.form-label{font-weight:600; font-size:.9rem}
+
+/* Planes */
+.plan-card{position:relative; background:#fff; border:1px solid var(--ss-border); border-radius:18px; padding:1.6rem 1.4rem; height:100%; transition:transform .2s, box-shadow .2s}
+.plan-card:hover{transform:translateY(-5px); box-shadow:0 14px 30px rgba(23,50,77,.12)}
+.plan-card.destacado{border:2px solid var(--ss-green); box-shadow:0 10px 26px rgba(28,154,108,.18)}
+.plan-card.inactivo{opacity:.6}
+.plan-ribbon{position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:var(--ss-green); color:#fff; font-size:.75rem; font-weight:700; padding:.25rem .9rem; border-radius:50px}
+.plan-nombre{font-weight:800; color:var(--ss-primary)}
+.plan-precio{font-size:2rem; font-weight:800; color:var(--ss-ink)}
+.plan-precio small{font-size:.85rem; font-weight:500; color:var(--ss-muted)}
+.plan-list{list-style:none; padding:0; margin:1rem 0}
+.plan-list li{padding:.3rem 0; font-size:.92rem}
+.plan-list li::before{content:"✔"; color:var(--ss-green); font-weight:700; margin-right:.5rem}
+.chip{display:inline-block; background:#eaf1f8; color:var(--ss-primary-dark); border-radius:6px; font-size:.72rem; padding:.15rem .5rem; margin:0 .2rem .25rem 0}
+
+.nav-tabs .nav-link{color:var(--ss-muted); font-weight:600}
+.nav-tabs .nav-link.active{color:var(--ss-primary); border-bottom-color:#fff}
+
+@media (max-width:576px){.plan-precio{font-size:1.6rem}}

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reportes Asistenciales | SaludSync</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../assets/css/styles.css" rel="stylesheet">
+  <link href="../../assets/css/plataforma.css" rel="stylesheet">
+  <link href="../../assets/css/reportes.css" rel="stylesheet">
+</head>
+<body data-page="reportes_asistenciales">
+
+  <div id="app-header"></div>
+
+  <main class="container-xl py-4">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb small mb-2">
+        <li class="breadcrumb-item"><a href="../../index.html">Inicio</a></li>
+        <li class="breadcrumb-item">Reportes</li>
+        <li class="breadcrumb-item active" aria-current="page">Asistenciales y epidemiológicos</li>
+      </ol>
+    </nav>
+
+    <div class="page-head mb-4">
+      <span class="badge badge-mod">Pantalla 14.1</span>
+      <h1 class="h3 fw-bold mb-0 mt-1">Centro de Reportes Asistenciales y Epidemiológicos</h1>
+      <p class="text-muted mb-0">Institución: <strong data-inst-nombre>—</strong> · Datos de ejemplo de los últimos 6 meses.</p>
+    </div>
+
+    <!-- Filtros -->
+    <div class="card panel mb-3">
+      <div class="card-body">
+        <div class="row g-2 align-items-end">
+          <div class="col-lg-3">
+            <span class="form-label small fw-semibold d-block">Periodo rápido</span>
+            <div class="btn-group preset w-100" role="group" aria-label="Periodo rápido">
+              <button type="button" class="btn btn-outline-primary" data-d="7">7 días</button>
+              <button type="button" class="btn btn-outline-primary active" data-d="30">30 días</button>
+              <button type="button" class="btn btn-outline-primary" data-d="90">90 días</button>
+            </div>
+          </div>
+          <div class="col-6 col-lg-2"><label for="fDesde" class="form-label small fw-semibold">Desde</label><input type="date" id="fDesde" class="form-control"></div>
+          <div class="col-6 col-lg-2"><label for="fHasta" class="form-label small fw-semibold">Hasta</label><input type="date" id="fHasta" class="form-control"></div>
+          <div class="col-6 col-lg-2"><label for="fEsp" class="form-label small fw-semibold">Especialidad</label><select id="fEsp" class="form-select"></select></div>
+          <div class="col-6 col-lg-1"><label for="fSede" class="form-label small fw-semibold">Sede</label><select id="fSede" class="form-select"></select></div>
+          <div class="col-lg-2 d-grid"><button type="button" class="btn btn-success" id="btnGenerar">📊 Generar reporte</button></div>
+        </div>
+        <div class="text-danger small mt-2 d-none" id="errFiltros"></div>
+      </div>
+    </div>
+
+    <div class="row g-3 mb-3" id="kpis"></div>
+
+    <div class="row g-3 mb-3">
+      <div class="col-lg-6"><div class="card panel h-100"><div class="card-header section-title">🏆 Top 5 diagnósticos principales (CIE-10)</div><div class="card-body" id="topDx"></div></div></div>
+      <div class="col-lg-6"><div class="card panel h-100"><div class="card-header section-title">Estado de las citas del periodo</div>
+        <div class="card-body"><div class="row align-items-center"><div class="col-sm-6"><div class="chart-box" id="donut"></div></div><div class="col-sm-6"><ul class="donut-leg" id="donutLeg"></ul></div></div></div></div></div>
+    </div>
+
+    <div class="card panel mb-3"><div class="card-header section-title">📈 Atenciones por semana</div><div class="card-body"><div class="chart-box" id="tendencia"></div></div></div>
+
+    <div class="card panel mb-4">
+      <div class="card-header section-title">Detalle de consultas por especialidad</div>
+      <div class="table-responsive"><table class="table table-ss align-middle mb-0">
+        <thead><tr><th>Especialidad</th><th>Atenciones</th><th style="min-width:160px">% del total</th><th>Inasistencias</th><th>Tasa de inasistencia</th><th>Oportunidad (días)</th></tr></thead>
+        <tbody id="tablaEsp"></tbody></table></div>
+    </div>
+
+    <!-- Exportación -->
+    <div class="export-card p-3 p-md-4 mb-4">
+      <h2 class="h5 fw-bold mb-3">⬇️ Exportar reporte</h2>
+      <div class="row g-3 align-items-start">
+        <div class="col-md-4">
+          <label for="tipoRep" class="form-label fw-semibold">Tipo de reporte</label>
+          <select id="tipoRep" class="form-select"><option>Volumen Atenciones</option><option>Epidemiológico CIE-10</option><option>Inasistencias</option></select>
+          <div class="form-text" id="ayudaTipo"></div>
+        </div>
+        <div class="col-md-5">
+          <div class="form-check form-switch mb-2"><input class="form-check-input" type="checkbox" id="chkAnon" checked><label class="form-check-label fw-semibold" for="chkAnon">Anonimizar datos sensibles</label></div>
+          <div class="anon-box" id="anonInfo"></div>
+          <div class="form-check mt-2 d-none" id="bloqueAutoriza"><input class="form-check-input" type="checkbox" id="chkAutoriza"><label class="form-check-label small" for="chkAutoriza">Declaro contar con autorización para tratar datos personales de salud (Ley 1581 de 2012).</label></div>
+          <div class="text-danger small d-none" id="errAutoriza">Debe confirmar la autorización para exportar datos identificables.</div>
+        </div>
+        <div class="col-md-3 d-grid gap-2">
+          <button type="button" class="btn btn-outline-success" id="btnCSV">📗 Exportar Excel / CSV</button>
+          <button type="button" class="btn btn-outline-danger" id="btnPDF">📕 Exportar PDF</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Historial de reportes -->
+    <div class="card panel mb-5">
+      <div class="card-header section-title">🗂️ Reportes generados</div>
+      <div class="table-responsive"><table class="table table-ss align-middle mb-0">
+        <thead><tr><th>Fecha</th><th>Tipo</th><th>Formato</th><th>Datos</th><th>Filtros (JSON)</th><th>Generó</th><th class="text-end"></th></tr></thead>
+        <tbody id="tablaReportes"></tbody></table></div>
+      <div class="card-footer bg-white"><nav aria-label="Paginación"><ul class="pagination pagination-sm mb-0 justify-content-end" id="paginacion"></ul></nav></div>
+    </div>
+  </main>
+
+  <!-- Modal de generación asíncrona -->
+  <div class="modal fade" id="modalJob" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body py-4">
+          <h2 class="h5 mb-3" id="jobTitulo">Generando reporte…</h2>
+          <div class="progress mb-2" style="height:14px"><div class="progress-bar progress-bar-striped progress-bar-animated bg-success" id="jobBarra" style="width:0%"></div></div>
+          <div class="job-paso" id="jobPaso">Preparando…</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="app-footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/reportes.js"></script>
+</body>
+</html>

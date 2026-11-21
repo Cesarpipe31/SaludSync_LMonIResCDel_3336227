@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Centro de Notificaciones | SaludSync</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../assets/css/styles.css" rel="stylesheet">
+  <link href="../../assets/css/plataforma.css" rel="stylesheet">
+  <link href="../../assets/css/notificaciones.css" rel="stylesheet">
+</head>
+<body data-page="centro_notificaciones">
+
+  <div id="app-header"></div>
+
+  <main class="container py-4">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb small mb-2">
+        <li class="breadcrumb-item"><a href="../../index.html">Inicio</a></li>
+        <li class="breadcrumb-item">Notificaciones</li>
+        <li class="breadcrumb-item active" aria-current="page">Centro de notificaciones</li>
+      </ol>
+    </nav>
+
+    <div class="page-head d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+      <div>
+        <span class="badge badge-mod">Pantalla 13.1</span>
+        <h1 class="h3 fw-bold mb-0 mt-1">Centro de Notificaciones y Alertas</h1>
+        <p class="text-muted mb-0">Institución: <strong data-inst-nombre>—</strong> · Bandeja de: <strong id="quienBandeja">—</strong></p>
+      </div>
+      <div class="d-flex flex-wrap gap-2 align-items-end">
+        <div id="bloqueUsuario" class="d-none" style="min-width:250px"><label for="selUsuario" class="form-label small fw-semibold mb-1">Ver como (demostración)</label><select id="selUsuario" class="form-select"></select></div>
+        <a href="configuracion_alertas.html" class="btn btn-outline-primary">⚙️ Configurar alertas</a>
+        <button type="button" class="btn btn-success" id="btnTodasLeidas">✔ Marcar todas como leídas</button>
+      </div>
+    </div>
+
+    <div class="row g-3 mb-3" id="kpis"></div>
+
+    <div class="card panel mb-3">
+      <div class="card-body">
+        <div class="d-flex flex-wrap gap-2 mb-3" id="chipsTipo"></div>
+        <div class="row g-2 align-items-center">
+          <div class="col-lg-5">
+            <div class="btn-group pill-est w-100" role="group" aria-label="Estado de lectura" id="pillsEstado">
+              <button type="button" class="btn btn-outline-primary active" data-e="bandeja">Bandeja</button>
+              <button type="button" class="btn btn-outline-primary" data-e="No Leída">No leídas</button>
+              <button type="button" class="btn btn-outline-primary" data-e="Leída">Leídas</button>
+              <button type="button" class="btn btn-outline-primary" data-e="Archivada">Archivadas</button>
+            </div>
+          </div>
+          <div class="col-md-5 col-lg-4"><input type="search" id="fTxt" class="form-control" placeholder="Buscar en título o mensaje…" aria-label="Buscar" autocomplete="off"></div>
+          <div class="col-md-4 col-lg-3"><select id="fRango" class="form-select" aria-label="Periodo"><option value="">Todo el historial</option><option value="1">Hoy</option><option value="7">Últimos 7 días</option><option value="30">Últimos 30 días</option></select></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Barra de selección múltiple -->
+    <div class="barra-sel d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3 d-none" id="barraSel">
+      <span><strong id="nSel">0</strong> seleccionada(s)</span>
+      <div class="d-flex flex-wrap gap-2">
+        <button type="button" class="btn btn-sm btn-outline-success" data-bulk="Leída">✔ Marcar leídas</button>
+        <button type="button" class="btn btn-sm btn-outline-primary" data-bulk="No Leída">↺ Marcar no leídas</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-bulk="Archivada">📥 Archivar</button>
+        <button type="button" class="btn btn-sm btn-outline-dark" data-bulk="restaurar">↩ Restaurar</button>
+        <button type="button" class="btn btn-sm btn-link" id="btnQuitarSel">Quitar selección</button>
+      </div>
+    </div>
+
+    <div class="d-flex align-items-center gap-2 mb-1">
+      <div class="form-check"><input class="form-check-input" type="checkbox" id="chkTodos"><label class="form-check-label small" for="chkTodos">Seleccionar página</label></div>
+      <small class="text-muted ms-auto" id="contador"></small>
+    </div>
+
+    <div id="lista" class="mb-3"></div>
+    <nav aria-label="Paginación" class="mb-5"><ul class="pagination pagination-sm justify-content-center" id="paginacion"></ul></nav>
+  </main>
+
+  <!-- Modal marcar todas -->
+  <div class="modal fade" id="modalMasivo" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header"><h2 class="modal-title h5">Marcar todas como leídas</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button></div>
+        <div class="modal-body" id="masivoCuerpo"></div>
+        <div class="modal-footer"><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button><button type="button" class="btn btn-success" id="btnConfirmarMasivo">✔ Marcar todas</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="app-footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/notificaciones.js"></script>
+</body>
+</html>

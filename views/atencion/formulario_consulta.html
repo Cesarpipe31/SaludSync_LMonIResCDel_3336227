@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Atención Médica | SaludSync</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../assets/css/styles.css" rel="stylesheet">
+  <link href="../../assets/css/plataforma.css" rel="stylesheet">
+  <link href="../../assets/css/atencion.css" rel="stylesheet">
+</head>
+<body data-page="formulario_consulta">
+
+  <div id="app-header"></div>
+
+  <main class="container py-4">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb small mb-2">
+        <li class="breadcrumb-item"><a href="../../index.html">Inicio</a></li>
+        <li class="breadcrumb-item"><a href="panel_asistencial.html">Panel asistencial</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Atención médica</li>
+      </ol>
+    </nav>
+
+    <div id="noDisponible" class="alert alert-warning d-none"></div>
+
+    <div id="contenido" class="d-none">
+      <span class="badge badge-mod mb-2">Pantalla 8.2</span>
+
+      <!-- Cabecera fija del paciente -->
+      <div class="pac-header mb-3">
+        <div class="d-flex flex-wrap align-items-center gap-3">
+          <div class="avatar-c" id="hAvatar">?</div>
+          <div class="flex-grow-1">
+            <div class="h5 fw-bold mb-0" id="hNombre"></div>
+            <div class="small text-muted" id="hDatos"></div>
+            <div class="small" id="hCita"></div>
+          </div>
+          <div class="text-end">
+            <div class="small text-muted">Duración</div>
+            <div class="timer" id="timer">00:00</div>
+            <span class="badge bg-warning text-dark" id="hEstado">En Atención</span>
+          </div>
+        </div>
+        <div class="alerta-alergia mt-2 d-none" id="hAlergias"></div>
+      </div>
+
+      <!-- Progreso -->
+      <div class="d-flex flex-wrap gap-2 mb-3" id="pasos">
+        <span class="paso-chip" data-paso="anamnesis">Anamnesis</span>
+        <span class="paso-chip" data-paso="signos">Signos vitales</span>
+        <span class="paso-chip ok" data-paso="antecedentes">Antecedentes (opcional)</span>
+      </div>
+
+      <div class="alert alert-danger lock-banner d-none" id="bannerLock" role="alert"></div>
+      <div class="alert alert-info d-none" id="bannerLectura" role="status"></div>
+
+      <form id="formConsulta" novalidate>
+        <fieldset id="fsForm">
+
+          <!-- 1. Anamnesis -->
+          <section class="card panel mb-3">
+            <div class="card-header section-title">1 · Anamnesis y examen físico</div>
+            <div class="card-body">
+              <div class="mb-3">
+                <label for="f_motivo" class="form-label">Motivo de consulta *</label>
+                <textarea id="f_motivo" class="form-control" rows="2" maxlength="500" required placeholder="¿Por qué consulta el paciente? (en palabras del paciente)"></textarea>
+                <div class="contador-car"><span data-cnt="f_motivo">0</span>/500</div>
+                <div class="invalid-feedback">El motivo de consulta es obligatorio.</div>
+              </div>
+              <div class="mb-3">
+                <label for="f_ea" class="form-label">Enfermedad actual *</label>
+                <textarea id="f_ea" class="form-control" rows="4" required placeholder="Inicio, evolución, síntomas asociados, factores que mejoran o empeoran…"></textarea>
+                <div class="invalid-feedback">Describa la enfermedad actual.</div>
+              </div>
+              <div class="mb-3">
+                <label for="f_rs" class="form-label">Revisión por sistemas</label>
+                <div class="mb-1" id="chipsSistemas"></div>
+                <textarea id="f_rs" class="form-control" rows="3" placeholder="Toque un sistema para insertar «sin hallazgos» y edite lo que corresponda."></textarea>
+              </div>
+              <div class="mb-0">
+                <label for="f_ef" class="form-label">Examen físico *</label>
+                <textarea id="f_ef" class="form-control" rows="4" required placeholder="Hallazgos del examen físico por regiones…"></textarea>
+                <div class="invalid-feedback">Registre el examen físico.</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 2. Signos vitales -->
+          <section class="card panel mb-3">
+            <div class="card-header section-title">2 · Signos vitales y antropometría</div>
+            <div class="card-body">
+              <div class="row g-3">
+                <div class="col-md-6 col-lg-4"><div class="vital-card" data-v="pa">
+                  <label>Presión arterial *</label>
+                  <div class="input-group input-group-sm">
+                    <input type="number" id="s_pas" class="form-control" min="50" max="260" step="1" required placeholder="Sist." aria-label="Presión sistólica">
+                    <span class="input-group-text">/</span>
+                    <input type="number" id="s_pad" class="form-control" min="30" max="160" step="1" required placeholder="Diast." aria-label="Presión diastólica">
+                    <span class="input-group-text">mmHg</span>
+                  </div><div class="vital-msg" data-msg="pa"></div></div></div>
+                <div class="col-6 col-md-3 col-lg-2"><div class="vital-card" data-v="fc">
+                  <label for="s_fc">F. cardíaca *</label>
+                  <div class="input-group input-group-sm"><input type="number" id="s_fc" class="form-control" min="20" max="250" step="1" required><span class="input-group-text">lpm</span></div>
+                  <div class="vital-msg" data-msg="fc"></div></div></div>
+                <div class="col-6 col-md-3 col-lg-2"><div class="vital-card" data-v="fr">
+                  <label for="s_fr">F. respiratoria *</label>
+                  <div class="input-group input-group-sm"><input type="number" id="s_fr" class="form-control" min="4" max="70" step="1" required><span class="input-group-text">rpm</span></div>
+                  <div class="vital-msg" data-msg="fr"></div></div></div>
+                <div class="col-6 col-md-3 col-lg-2"><div class="vital-card" data-v="temp">
+                  <label for="s_temp">Temperatura *</label>
+                  <div class="input-group input-group-sm"><input type="number" id="s_temp" class="form-control" min="30" max="43" step="0.1" required><span class="input-group-text">°C</span></div>
+                  <div class="vital-msg" data-msg="temp"></div></div></div>
+                <div class="col-6 col-md-3 col-lg-2"><div class="vital-card" data-v="sat">
+                  <label for="s_sat">Sat. O₂ *</label>
+                  <div class="input-group input-group-sm"><input type="number" id="s_sat" class="form-control" min="50" max="100" step="1" required><span class="input-group-text">%</span></div>
+                  <div class="vital-msg" data-msg="sat"></div></div></div>
+
+                <div class="col-6 col-md-3"><div class="vital-card">
+                  <label for="s_peso">Peso *</label>
+                  <div class="input-group input-group-sm"><input type="number" id="s_peso" class="form-control" min="0.5" max="400" step="0.1" required><span class="input-group-text">kg</span></div></div></div>
+                <div class="col-6 col-md-3"><div class="vital-card">
+                  <label for="s_talla">Talla *</label>
+                  <div class="input-group input-group-sm"><input type="number" id="s_talla" class="form-control" min="30" max="250" step="0.1" required><span class="input-group-text">cm</span></div></div></div>
+                <div class="col-md-6"><div class="imc-box">
+                  <div class="small text-muted fw-semibold text-uppercase">Índice de masa corporal (IMC)</div>
+                  <div class="imc-valor" id="imcValor">—</div>
+                  <span class="badge mt-1" id="imcClase">Ingrese peso y talla</span>
+                  <input type="hidden" id="s_imc"></div></div>
+              </div>
+              <div class="text-danger small mt-2 d-none" id="errSignos"></div>
+            </div>
+          </section>
+
+          <!-- 3. Antecedentes -->
+          <section class="card panel mb-3">
+            <div class="card-header section-title">3 · Antecedentes clínicos</div>
+            <div class="card-body">
+              <div id="listaAnt" class="ant-grupo mb-3"></div>
+              <div class="row g-2 align-items-end border-top pt-3">
+                <div class="col-md-3"><label for="a_tipo" class="form-label small fw-semibold">Tipo</label>
+                  <select id="a_tipo" class="form-select"><option>Patológico</option><option>Alérgico</option><option>Quirúrgico</option><option>Farmacológico</option><option>Familiar</option></select></div>
+                <div class="col-md-7"><label for="a_desc" class="form-label small fw-semibold">Descripción</label>
+                  <input type="text" id="a_desc" class="form-control" maxlength="255" placeholder="Ej: Alergia a penicilina (rash cutáneo)"></div>
+                <div class="col-md-2 d-grid"><button type="button" class="btn btn-outline-success" id="btnAddAnt">➕ Agregar</button></div>
+              </div>
+              <div class="form-text">Los antecedentes nuevos se vinculan a esta consulta y a su nombre como médico que los identificó.</div>
+            </div>
+          </section>
+
+          <!-- 4. Observaciones -->
+          <section class="card panel mb-3">
+            <div class="card-header section-title">4 · Observaciones y cierre de la consulta</div>
+            <div class="card-body">
+              <label for="f_obs" class="form-label">Observaciones finales / plan inicial</label>
+              <textarea id="f_obs" class="form-control" rows="3" placeholder="Impresión general, indicaciones y conducta a seguir. El diagnóstico se registra en el siguiente paso."></textarea>
+            </div>
+          </section>
+        </fieldset>
+
+        <div class="barra-acciones" id="barraAcciones">
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+            <small class="text-muted" id="guardadoInfo">Sin guardar</small>
+            <div class="d-flex gap-2">
+              <a href="panel_asistencial.html" class="btn btn-outline-secondary">← Panel</a>
+              <button type="button" class="btn btn-outline-primary" id="btnBorrador">💾 Guardar borrador</button>
+              <button type="submit" class="btn btn-success px-4" id="btnFinalizar">✔ Finalizar consulta</button>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <!-- Éxito -->
+      <div class="card panel d-none" id="exito">
+        <div class="card-body text-center py-5">
+          <div class="display-4">✅</div>
+          <h2 class="h4 mt-2">Consulta finalizada</h2>
+          <p class="text-muted" id="exitoTexto"></p>
+          <div class="d-flex flex-wrap justify-content-center gap-2">
+            <a href="panel_asistencial.html" class="btn btn-primary">Volver al panel asistencial</a>
+            <a href="../diagnosticos/registro_diagnostico.html" class="btn btn-success" id="btnDx">🩺 Registrar diagnóstico</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal finalizar -->
+  <div class="modal fade" id="modalFin" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header"><h2 class="modal-title h5">Finalizar consulta</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button></div>
+        <div class="modal-body" id="finCuerpo"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Seguir editando</button>
+          <button type="button" class="btn btn-success" id="btnConfirmarFin">Confirmar y finalizar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="app-footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/atencion.js"></script>
+</body>
+</html>

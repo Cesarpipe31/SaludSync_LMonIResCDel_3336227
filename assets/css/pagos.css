@@ -1,0 +1,62 @@
+/* ===== SaludSync · Módulo 16: Pasarela de Pagos (estilos) ===== */
+
+.metodo-pago {
+  border: 1px solid #dee2e6;
+  border-radius: 0.375rem;
+  padding: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.metodo-pago:hover {
+  border-color: #0d6efd;
+  background-color: #f8f9fa;
+}
+
+.metodo-pago input:checked + label {
+  color: #0d6efd;
+}
+
+.metodo-pago input:checked + label .fw-semibold {
+  color: #0d6efd;
+}
+
+.metodo-pago .form-check-input {
+  margin-top: 0.25rem;
+}
+
+.kpi-card {
+  border-left: 4px solid #0d6efd;
+}
+
+.kpi-card .card-body {
+  padding: 1rem;
+}
+
+.sticky-side {
+  position: sticky;
+  top: 1rem;
+}
+
+.resumen-slot {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 0.375rem;
+  padding: 0.75rem;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.resumen-slot strong {
+  color: #198754;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .sticky-side {
+    position: static;
+  }
+}

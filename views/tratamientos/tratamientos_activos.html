@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tratamientos Activos | SaludSync</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../assets/css/styles.css" rel="stylesheet">
+  <link href="../../assets/css/plataforma.css" rel="stylesheet">
+  <link href="../../assets/css/tratamientos.css" rel="stylesheet">
+</head>
+<body data-page="tratamientos_activos">
+
+  <div id="app-header"></div>
+
+  <main class="container-xl py-4">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb small mb-2">
+        <li class="breadcrumb-item"><a href="../../index.html">Inicio</a></li>
+        <li class="breadcrumb-item">Tratamientos</li>
+        <li class="breadcrumb-item active" aria-current="page">Tratamientos activos</li>
+      </ol>
+    </nav>
+
+    <div class="page-head d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+      <div>
+        <span class="badge badge-mod">Pantalla 11.2</span>
+        <h1 class="h3 fw-bold mb-0 mt-1">Panel de Seguimiento de Tratamientos</h1>
+        <p class="text-muted mb-0">Institución: <strong data-inst-nombre>—</strong></p>
+      </div>
+      <a href="formulario_prescripcion.html" class="btn btn-success">📝 Nueva prescripción</a>
+    </div>
+
+    <div class="row g-3 mb-3" id="kpis"></div>
+
+    <div class="card panel mb-3">
+      <div class="card-body">
+        <div class="row g-2">
+          <div class="col-md-4"><input type="search" id="fTxt" class="form-control" placeholder="Buscar paciente, CIE-10 o medicamento…" aria-label="Buscar" autocomplete="off"></div>
+          <div class="col-md-3"><select id="fPac" class="form-select" aria-label="Paciente"></select></div>
+          <div class="col-6 col-md-3"><select id="fTipo" class="form-select" aria-label="Tipo de tratamiento"><option value="">Todos los tipos</option><option>Farmacológico</option><option>No farmacológico</option><option>Terapia</option></select></div>
+          <div class="col-6 col-md-2 d-grid"><button type="button" id="btnLimpiar" class="btn btn-outline-secondary">Limpiar</button></div>
+        </div>
+      </div>
+    </div>
+
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabVig" type="button" role="tab">💊 Vigentes <span class="badge bg-success" id="nVig">0</span></button></li>
+      <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabHist" type="button" role="tab">🗂️ Historial de prescripciones <span class="badge bg-secondary" id="nHist">0</span></button></li>
+      <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabOrd" type="button" role="tab">🧪 Órdenes de examen <span class="badge bg-primary" id="nOrd">0</span></button></li>
+    </ul>
+    <div class="tab-content card panel border-top-0 rounded-top-0 mb-5">
+      <div class="tab-pane fade show active" id="tabVig" role="tabpanel"><div class="table-responsive"><table class="table table-ss align-middle mb-0">
+        <thead><tr><th>Fórmula</th><th>Paciente</th><th>Diagnóstico</th><th>Tipo</th><th>Vigencia</th><th>Estado</th><th class="text-end">Acciones</th></tr></thead><tbody id="tablaVig"></tbody></table></div></div>
+      <div class="tab-pane fade" id="tabHist" role="tabpanel"><div class="table-responsive"><table class="table table-ss align-middle mb-0">
+        <thead><tr><th>Fórmula</th><th>Paciente</th><th>Diagnóstico</th><th>Tipo</th><th>Periodo</th><th>Cierre</th><th class="text-end">Acciones</th></tr></thead><tbody id="tablaHist"></tbody></table></div></div>
+      <div class="tab-pane fade" id="tabOrd" role="tabpanel">
+        <div class="p-3 border-bottom"><select id="fEstOrd" class="form-select w-auto" aria-label="Estado de la orden"><option value="">Todos los estados</option><option>Generada</option><option>Realizada</option><option>Cancelada</option></select></div>
+        <div class="table-responsive"><table class="table table-ss align-middle mb-0">
+        <thead><tr><th>Orden</th><th>Paciente</th><th>Tipo</th><th>Examen</th><th>Justificación</th><th>Estado</th><th class="text-end">Acciones</th></tr></thead><tbody id="tablaOrd"></tbody></table></div></div>
+    </div>
+  </main>
+
+  <!-- Detalle -->
+  <div class="modal fade" id="modalDetalle" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header"><h2 class="modal-title h5" id="detTitulo">Detalle</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button></div>
+        <div class="modal-body" id="detCuerpo"></div>
+        <div class="modal-footer"><button type="button" class="btn btn-danger" id="btnDetPDF">📄 Fórmula PDF</button><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Suspender / Finalizar -->
+  <div class="modal fade" id="modalCierre" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <form class="modal-content" id="formCierre" novalidate>
+        <div class="modal-header"><h2 class="modal-title h5" id="cierreTitulo">Cambiar estado</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button></div>
+        <div class="modal-body">
+          <p id="cierreInfo" class="mb-3"></p>
+          <label for="cierreMotivo" class="form-label" id="cierreLabel">Motivo *</label>
+          <select id="cierreMotivo" class="form-select" required></select>
+          <div class="invalid-feedback">Seleccione el motivo.</div>
+          <div class="alert alert-warning small mt-3 mb-0 d-none" id="cierreAviso"></div>
+        </div>
+        <div class="modal-footer"><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-primary" id="btnConfirmarCierre">Confirmar</button></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Ajuste de dosis -->
+  <div class="modal fade" id="modalAjuste" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header"><h2 class="modal-title h5">Ajustar dosis</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button></div>
+        <div class="modal-body">
+          <p class="small text-muted">El tratamiento actual se finalizará con motivo «Ajuste de dosis» y se creará una nueva prescripción con los valores ajustados.</p>
+          <div class="table-responsive"><table class="table align-middle ajuste-tabla">
+            <thead><tr><th>Medicamento</th><th>Dosis</th><th>Frecuencia</th><th>Días</th><th>Cantidad</th></tr></thead><tbody id="ajusteBody"></tbody></table></div>
+          <div class="alert alert-danger small d-none" id="ajusteErr" role="alert"></div>
+        </div>
+        <div class="modal-footer"><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button><button type="button" class="btn btn-success" id="btnConfirmarAjuste">Aplicar ajuste</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reanudar -->
+  <div class="modal fade" id="modalReanudar" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered"><div class="modal-content">
+      <div class="modal-header"><h2 class="modal-title h5">Reanudar tratamiento</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button></div>
+      <div class="modal-body" id="reanudarCuerpo"></div>
+      <div class="modal-footer"><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button><button type="button" class="btn btn-success" id="btnConfirmarReanudar">▶ Reanudar</button></div>
+    </div></div>
+  </div>
+
+  <div id="app-footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/tratamientos.js"></script>
+</body>
+</html>

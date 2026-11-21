@@ -1,0 +1,61 @@
+/* ===== SaludSync · Módulo 6 (Agenda Médica y Horarios) ===== */
+
+mark.hl{background:#fff1b8; padding:0 .1rem; border-radius:3px}
+.sticky-side{position:sticky; top:84px}
+
+/* ---- Calendario semanal ---- */
+.cal-wrap{overflow:auto; max-height:78vh; border-radius:14px}
+.cal{--hh:52px; display:grid; grid-template-columns:58px repeat(7,minmax(125px,1fr)); min-width:960px; background:#fff}
+.cal-corner,.cal-dh{position:sticky; top:0; z-index:6; background:#eaf1f8; text-align:center; padding:.5rem .2rem; border-bottom:2px solid var(--ss-border); font-size:.82rem; font-weight:700; color:var(--ss-primary-dark)}
+.cal-dh small{display:block; font-weight:500; color:var(--ss-muted)}
+.cal-dh.hoy{background:var(--ss-green); color:#fff}
+.cal-dh.hoy small{color:#e6fff5}
+.cal-gutter{position:relative; height:calc(var(--hh) * 14); background:#f6f9fc; border-right:1px solid var(--ss-border)}
+.cal-gutter span{position:absolute; right:6px; transform:translateY(-50%); font-size:.68rem; color:var(--ss-muted)}
+.cal-col{position:relative; height:calc(var(--hh) * 14); border-left:1px solid #e3eaf1;
+  background-image:repeating-linear-gradient(to bottom, transparent 0, transparent calc(var(--hh) - 1px), #e8eef4 calc(var(--hh) - 1px), #e8eef4 var(--hh))}
+.cal-col.hoy{background-color:#f4fbf8}
+.cal-now{position:absolute; left:0; right:0; height:2px; background:#d9534f; z-index:4}
+.cal-now::before{content:""; position:absolute; left:-4px; top:-3px; width:8px; height:8px; border-radius:50%; background:#d9534f}
+
+/* Bloques de turno */
+.cal-ev{position:absolute; border-radius:8px; padding:.2rem .35rem; font-size:.7rem; line-height:1.15; overflow:hidden; cursor:pointer; z-index:2; box-shadow:0 1px 3px rgba(23,50,77,.15); transition:filter .15s, transform .15s}
+.cal-ev:hover{filter:brightness(.96); transform:scale(1.015); z-index:3}
+.cal-ev strong{display:block; font-size:.74rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.cal-ev span,.cal-ev em{display:block; font-style:normal; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; opacity:.9}
+.cal-ev.borrador{border-style:dashed !important; opacity:.75}
+.cal-ev.inactiva{filter:grayscale(1); opacity:.55}
+.cal-bloq{position:absolute; left:0; right:0; z-index:1; pointer-events:none;
+  background:repeating-linear-gradient(45deg,rgba(217,83,79,.40),rgba(217,83,79,.40) 6px,rgba(255,255,255,.55) 6px,rgba(255,255,255,.55) 12px);
+  border-top:1px solid rgba(217,83,79,.6); border-bottom:1px solid rgba(217,83,79,.6)}
+
+/* Paleta por profesional */
+.ag-p0{background:#d6e8fa; color:#083f78; border:1px solid #0b5cab; border-left:4px solid #0b5cab}
+.ag-p1{background:#d9f2e7; color:#0e5c3f; border:1px solid #1c9a6c; border-left:4px solid #1c9a6c}
+.ag-p2{background:#fde8cf; color:#7a4300; border:1px solid #f0a30a; border-left:4px solid #f0a30a}
+.ag-p3{background:#ecdcf7; color:#4b2169; border:1px solid #8e44ad; border-left:4px solid #8e44ad}
+.ag-p4{background:#fcdada; color:#7a1f1f; border:1px solid #d9534f; border-left:4px solid #d9534f}
+.ag-p5{background:#d7f1f4; color:#0b5560; border:1px solid #17a2b8; border-left:4px solid #17a2b8}
+.ag-p6{background:#f3f0c8; color:#5a5400; border:1px solid #b5a800; border-left:4px solid #b5a800}
+.ag-p7{background:#e4e4f7; color:#2e2e7a; border:1px solid #5b5bd6; border-left:4px solid #5b5bd6}
+
+/* Leyenda */
+.lgd{display:inline-block; width:14px; height:14px; border-radius:4px; margin-right:.3rem; vertical-align:middle; border:1px solid #cdd6df}
+.lgd-pub{background:#d6e8fa; border-left:4px solid #0b5cab}
+.lgd-bor{background:#d6e8fa; border:1px dashed #0b5cab}
+.lgd-bloq{background:repeating-linear-gradient(45deg,rgba(217,83,79,.45),rgba(217,83,79,.45) 3px,#fff 3px,#fff 6px)}
+
+/* Franjas (malla de cupos) */
+.slot-chip{display:inline-block; font-size:.74rem; font-weight:600; border-radius:6px; padding:.15rem .5rem; margin:0 .25rem .3rem 0; border:1px solid transparent}
+.slot-libre{background:#e3f6ee; color:#147553; border-color:#b7dfcc}
+.slot-ocupado{background:#d6e8fa; color:#083f78; border-color:#b2d0ee}
+.slot-bloq{background:#fcdada; color:#7a1f1f; border-color:#f0b4b2}
+.slot-prev{background:#eef5fb; color:var(--ss-primary-dark); border-color:#cfe0f1}
+
+/* Formularios */
+.dia-pill{min-width:84px}
+.range-dur{accent-color:var(--ss-green)}
+.row-editando{background:#fff8e6 !important}
+.impacto-tabla{font-size:.82rem}
+
+@media (max-width:991px){.sticky-side{position:static}}

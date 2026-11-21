@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Historial Diagnóstico | SaludSync</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../assets/css/styles.css" rel="stylesheet">
+  <link href="../../assets/css/plataforma.css" rel="stylesheet">
+  <link href="../../assets/css/diagnosticos.css" rel="stylesheet">
+</head>
+<body data-page="historial_diagnostico">
+
+  <div id="app-header"></div>
+
+  <main class="container-xl py-4">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb small mb-2">
+        <li class="breadcrumb-item"><a href="../../index.html">Inicio</a></li>
+        <li class="breadcrumb-item">Diagnósticos</li>
+        <li class="breadcrumb-item active" aria-current="page">Historial</li>
+      </ol>
+    </nav>
+
+    <div class="page-head d-flex flex-wrap justify-content-between align-items-end gap-3 mb-3">
+      <div>
+        <span class="badge badge-mod">Pantalla 10.2</span>
+        <h1 class="h3 fw-bold mb-0 mt-1">Historial y Trazabilidad Diagnóstica</h1>
+        <p class="text-muted mb-0">Institución: <strong data-inst-nombre>—</strong></p>
+      </div>
+      <div class="d-flex flex-wrap gap-2 align-items-end">
+        <div><label for="buscaPacH" class="form-label small fw-semibold mb-1">Buscar paciente</label><input type="search" id="buscaPacH" class="form-control" placeholder="Nombre o documento" autocomplete="off"></div>
+        <div style="min-width:260px"><label for="selPacH" class="form-label small fw-semibold mb-1">Paciente</label><select id="selPacH" class="form-select"></select></div>
+      </div>
+    </div>
+
+    <div class="ctx-card mb-3 d-none" id="ctxPac"></div>
+    <div class="row g-3 mb-3" id="kpis"></div>
+
+    <div class="card panel mb-3">
+      <div class="card-body">
+        <div class="row g-2">
+          <div class="col-md-4"><input type="search" id="fTxt" class="form-control" placeholder="Filtrar por código o patología…" aria-label="Filtrar diagnósticos" autocomplete="off"></div>
+          <div class="col-6 col-md-3"><select id="fTipo" class="form-select" aria-label="Tipo de diagnóstico"><option value="">Todos los tipos</option><option>Principal</option><option>Relacionado 1</option><option>Relacionado 2</option><option>Descarte</option></select></div>
+          <div class="col-6 col-md-3"><select id="fEst" class="form-select" aria-label="Estado actual"><option value="">Todos los estados</option><option>En estudio</option><option>Confirmado</option><option>Crónico / recurrente</option><option>Descartado</option></select></div>
+          <div class="col-md-2 d-grid"><button type="button" class="btn btn-outline-secondary" id="btnLimpiar">Limpiar</button></div>
+        </div>
+      </div>
+    </div>
+
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabCrono" type="button" role="tab">🕒 Cronológico por consulta</button></li>
+      <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabPat" type="button" role="tab">🧬 Por patología</button></li>
+    </ul>
+    <div class="tab-content card panel border-top-0 rounded-top-0 mb-5">
+      <div class="tab-pane fade show active p-3" id="tabCrono" role="tabpanel"><div id="crono"></div></div>
+      <div class="tab-pane fade" id="tabPat" role="tabpanel">
+        <div class="table-responsive"><table class="table table-ss align-middle mb-0">
+          <thead><tr><th>CIE-10</th><th>Patología</th><th>Registros</th><th>Primer diagnóstico</th><th>Último</th><th>Último médico</th><th>Estado actual</th></tr></thead>
+          <tbody id="tablaPat"></tbody></table></div>
+      </div>
+    </div>
+  </main>
+
+  <div id="app-footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/diagnosticos.js"></script>
+</body>
+</html>

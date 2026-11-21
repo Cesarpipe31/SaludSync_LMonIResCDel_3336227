@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Historial de Transacciones | SaludSync</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../assets/css/styles.css" rel="stylesheet">
+  <link href="../../assets/css/plataforma.css" rel="stylesheet">
+  <link href="../../assets/css/pagos.css" rel="stylesheet">
+</head>
+<body data-page="historial_transacciones">
+
+  <div id="app-header"></div>
+
+  <main class="container py-4">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb small mb-2">
+        <li class="breadcrumb-item"><a href="../../index.html">Inicio</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Pagos y Transacciones</li>
+      </ol>
+    </nav>
+
+    <div class="page-head d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+      <div>
+        <span class="badge badge-mod">Pantalla 16.2</span>
+        <h1 class="h3 fw-bold mb-0 mt-1">Historial de Transacciones Financieras</h1>
+        <p class="text-muted mb-0">Registro completo de pagos, reembolsos y conciliaciones.</p>
+      </div>
+      <div class="d-flex gap-2">
+        <button type="button" class="btn btn-success" id="btnNuevoPago">💳 Nuevo pago</button>
+        <button type="button" class="btn btn-outline-primary" id="btnExportar">📥 Exportar</button>
+      </div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="card panel mb-3">
+      <div class="card-body">
+        <div class="row g-2">
+          <div class="col-md-3">
+            <input type="search" id="buscador" class="form-control" placeholder="Buscar por ID, referencia..." aria-label="Buscar">
+          </div>
+          <div class="col-md-2">
+            <select id="filtroConcepto" class="form-select" aria-label="Concepto">
+              <option value="">Todos los conceptos</option>
+              <option>Suscripción SaaS</option>
+              <option>Consulta Particular</option>
+              <option>Copago / Cuota Moderadora</option>
+              <option>Examen Médico</option>
+              <option>Medicamento</option>
+              <option>Subsidio Estatal</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <select id="filtroEstado" class="form-select" aria-label="Estado">
+              <option value="">Todos los estados</option>
+              <option>Pendiente</option>
+              <option>Pagada</option>
+              <option>Mora</option>
+              <option>Anulada</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <select id="filtroMetodo" class="form-select" aria-label="Método">
+              <option value="">Todos los métodos</option>
+              <option>Tarjeta de Crédito</option>
+              <option>PSE</option>
+              <option>Transferencia</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <div class="input-group">
+              <input type="date" id="fDesde" class="form-control" aria-label="Desde">
+              <input type="date" id="fHasta" class="form-control" aria-label="Hasta">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="row g-3 mb-3">
+      <div class="col-md-3">
+        <div class="card kpi-card">
+          <div class="card-body">
+            <div class="small text-muted">Total transacciones</div>
+            <div class="fs-4 fw-bold" id="kpiTotal">0</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card kpi-card">
+          <div class="card-body">
+            <div class="small text-muted">Total recaudado</div>
+            <div class="fs-4 fw-bold text-success" id="kpiRecaudado">$0</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card kpi-card">
+          <div class="card-body">
+            <div class="small text-muted">Pagadas</div>
+            <div class="fs-4 fw-bold text-success" id="kpiAprobadas">0</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card kpi-card">
+          <div class="card-body">
+            <div class="small text-muted">Pendientes/En mora</div>
+            <div class="fs-4 fw-bold text-warning" id="kpiPendientes">0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla -->
+    <div class="card panel">
+      <div class="table-responsive">
+        <table class="table table-ss align-middle mb-0">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Fecha</th>
+              <th>Concepto</th>
+              <th>Actor origen</th>
+              <th>Método</th>
+              <th class="text-end">Monto</th>
+              <th>Estado</th>
+              <th class="text-end">Acción</th>
+            </tr>
+          </thead>
+          <tbody id="tablaTransacciones"></tbody>
+        </table>
+      </div>
+      <div class="card-footer bg-light">
+        <div class="d-flex justify-content-between align-items-center">
+          <small class="text-muted" id="contador">Mostrando 0 transacciones</small>
+          <nav aria-label="Paginación" id="paginacion"></nav>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal detalle -->
+  <div class="modal fade" id="modalDetalle" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title h5">Detalle de transacción</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body" id="detalleCuerpo"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-outline-primary d-none" id="btnReembolso">Solicitar reembolso</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="app-footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/pagos.js"></script>
+</body>
+</html>

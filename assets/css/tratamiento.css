@@ -1,0 +1,38 @@
+/* ===== SaludSync · Módulo 11 (Tratamientos y Prescripción Médica) ===== */
+
+.sticky-side{position:sticky; top:84px}
+.ctx-card{background:linear-gradient(120deg,#fff,#eef5fb); border:1px solid var(--ss-border); border-left:6px solid var(--ss-green); border-radius:14px; padding:.8rem 1rem}
+.alerta-alergia{background:#fcdada; border:1px solid #f0b4b2; color:#7a1f1f; border-radius:10px; padding:.35rem .7rem; font-size:.84rem; font-weight:600}
+.at-resumen{background:#f0f8f4; border:1px dashed #b7dfcc; border-radius:12px; padding:.6rem .9rem; font-size:.88rem}
+.cie-code{display:inline-block; font-family:Consolas,"Courier New",monospace; font-weight:800; font-size:.85rem; background:#eef5fb; color:var(--ss-primary-dark); border:1px solid #cfe0f1; border-radius:6px; padding:.05rem .45rem}
+
+/* Tipo de tratamiento (radios como tarjetas) */
+.tipo-card{border:2px solid var(--ss-border); border-radius:12px; padding:.7rem .9rem; cursor:pointer; background:#fff; height:100%; transition:border-color .15s, background .15s}
+.tipo-card strong{display:block}
+.tipo-card small{color:var(--ss-muted)}
+.btn-check:checked + .tipo-card{border-color:var(--ss-green); background:#effaf4}
+
+/* Cálculo farmacéutico */
+.calc-box{background:linear-gradient(135deg,#eef5fb,#effaf4); border:1px solid #cfe0f1; border-radius:12px; padding:.7rem .9rem}
+.calc-box .calc-num{font-size:1.7rem; font-weight:800; color:var(--ss-primary-dark); line-height:1}
+.calc-box small{color:var(--ss-muted)}
+.med-form{background:#f7fafc; border:1px solid var(--ss-border); border-radius:12px; padding:1rem}
+
+/* Listas */
+.med-pa{font-weight:700}
+.chip-via{font-size:.72rem; background:#eef5fb; color:var(--ss-primary-dark); border-radius:6px; padding:.1rem .45rem; font-weight:600}
+.badge-ord-Laboratorio{background:#0b5cab} .badge-ord-Imagenología{background:#17a2b8} .badge-ord-Procedimiento{background:#8e44ad} .badge-ord-Otro{background:#7a8a99}
+
+/* Estados de tratamiento */
+.est-trat{font-size:.74rem; font-weight:700; border-radius:50px; padding:.2rem .65rem}
+.est-Activo{background:#e3f6ee; color:#147553} .est-Suspendido{background:#fff3cd; color:#7a5b00} .est-Finalizado{background:#e4e8ec; color:#5d6a77}
+.est-Generada{background:#d9ecfb; color:#0b5cab} .est-Realizada{background:#e3f6ee; color:#147553} .est-Cancelada{background:#e4e8ec; color:#5d6a77}
+.prog-trat{height:8px; background:#e9eef3; border-radius:8px; overflow:hidden; min-width:90px}
+.prog-trat span{display:block; height:100%; background:linear-gradient(90deg,var(--ss-green),var(--ss-primary))}
+.prog-trat.vence span{background:linear-gradient(90deg,#f0a30a,#d9534f)}
+.dias-rest{font-weight:700; font-size:.85rem}
+.dias-rest.vence{color:#c0392b}
+.ajuste-tabla input,.ajuste-tabla select{min-width:90px}
+.firma-pdf{background:#fff8e6; border:1px solid #f3dd9b; border-radius:12px; padding:.7rem 1rem; font-size:.85rem}
+
+@media (max-width:991px){.sticky-side{position:static}}

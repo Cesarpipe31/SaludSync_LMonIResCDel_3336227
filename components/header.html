@@ -1,0 +1,41 @@
+<!-- Los {{ROOT}} los reemplaza main.js según la profundidad de la página -->
+<div class="ss-topbar d-none d-md-block">
+  <div class="container d-flex justify-content-between">
+    <span>📞 +57 607 000 0000 &nbsp;·&nbsp; ✉️ soporte@saludsync.co</span>
+    <span>SaludSync S.A.S. · NIT 900.000.000-0</span>
+  </div>
+</div>
+
+<nav class="navbar navbar-expand-lg ss-navbar sticky-top">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="{{ROOT}}index.html">
+      <img src="{{ROOT}}assets/images/logo.png" alt="Logo de SaludSync" class="ss-logo"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'">
+      <span class="ss-logo-fallback" style="display:none">➕</span>
+      <span class="d-flex flex-column lh-1">
+        <span class="ss-brand">SaludSync</span>
+        <small class="ss-tagline">Gestión integral en salud</small>
+      </span>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal"
+            aria-controls="menuPrincipal" aria-expanded="false" aria-label="Abrir menú">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="menuPrincipal">
+      <!-- Menú dinámico según rol - se genera desde JavaScript -->
+      <ul class="navbar-nav mx-lg-auto mb-2 mb-lg-0" id="menuDinamico">
+        <li class="nav-item"><a class="nav-link" data-nav="inicio" href="{{ROOT}}index.html">🏠 Inicio</a></li>
+      </ul>
+
+      <div class="d-flex align-items-center gap-2">
+        <a href="{{ROOT}}views/notificaciones/centro_notificaciones.html" class="btn btn-outline-primary btn-sm position-relative" title="Centro de notificaciones" aria-label="Notificaciones">
+          🔔<span id="campanaBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none">0</span>
+        </a>
+        <span class="badge ss-role d-none d-xl-inline" id="rolBadge">No autenticado</span>
+        <a href="{{ROOT}}views/seguridad/login.html" class="btn btn-outline-primary btn-sm" id="btnAuth" title="Iniciar sesión">👤 Iniciar sesión</a>
+      </div>
+    </div>
+  </div>
+</nav>
